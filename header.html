@@ -7,8 +7,10 @@
             font-family: "Gowun Dodum", sans-serif;
         }
         .header {
-            margin-top: 0px;
-            border: 1px;
+            position:fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 10%;
         }
         .container-fluid {
@@ -22,22 +24,11 @@
             height: 80px;
             float: left;
         }
-        .nav-link {
+        .mainlink {
+            text-decoration: none;
             font-size: xx-large;
             color: rgb(232, 52, 78);
             font-weight: 900;
-            margin-top: 0px;
-        }
-        .content{
-            height: auto;
-            min-height: 100%;
-            padding-bottom: 20%;
-        }
-
-        .footer {
-            height: 20%;
-            position: relative;
-            transform: translateY(-100%);
         }
     </style>
 </head>
@@ -49,13 +40,11 @@
                 <img class="logo" src="#" alt="Logo"
                     width="80" height="80">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">2Code</a>
-                </li> <!--메인페이지링크-->
+                    <a class="mainlink" href="메인페이지주소">2Code</a>
+                </li>
             </div>
         </nav>
     </div>
+</body>    
 
-    <div class="content"></div>
-
-    <div class="footer"></div>
 </html>
