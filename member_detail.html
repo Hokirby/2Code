@@ -31,6 +31,10 @@
         console.log(window.location.search);
         const uid=window.location.search.substring(5);
         console.log(uid);
+    
+        //수정 uid 업데이트
+        const link = document.querySelector('.red-btn');
+        link.href = `./member_replace.html?uid=${uid}`;
 
         async function getUserByUID(uid) {
         const userRef = doc(db, "memberInfo", uid);
@@ -56,6 +60,8 @@
         }
         }
         getUserByUID(uid);
+
+        
     </script>
     <style>
         body{
@@ -206,7 +212,7 @@
             </div>
             <div class="button-box">
                 <a class="gray-btn" id="cancle" href="index.html">이전</a>
-                <a class="red-btn" href="">수정</a>
+                <a class="red-btn" href="./member_replace.html?uid=">수정</a>
                 <a class="gray-btn" id = "delete"href="">삭제</a>
             </div>
         </div>
