@@ -56,6 +56,10 @@
         }
         }
         getUserByUID(uid);
+        $(function(){
+            $("#header").load("header.html");
+            $("#footer").load("footer.html");
+        });
     </script>
     <style>
         body{
@@ -119,16 +123,29 @@
             align-items: center;
             width: 500px;
         }
+        .text-box{
+            width: 480px;
+            height: 36px;
+            overflow:hidden;
+            text-overflow:clip;
+            white-space: nowrap;
+        }
         .resolution-box{
             margin-top: 5px;
         }
         .resolution{
+            width: 500px;
             border : 1px solid black;
             border-radius: 5px;
             height: 185px;
-            padding: 10px;
+            padding: 5px 0px 10px 5px;
+
             color: #353535;
-            font-size: 18px;
+            font-size: 15px;
+            overflow:scroll;
+            overflow-x: hidden;
+            text-overflow:clip;
+            /* white-space: nowrap; */
         }
         .button-box{
             display: flex;
