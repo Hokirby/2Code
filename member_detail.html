@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>등록 페이지</title>
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    
+        // Firebase 구성 정보 설정
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
+        authDomain: "teampage-2code.firebaseapp.com",
+        projectId: "teampage-2code",
+        storageBucket: "teampage-2code.firebasestorage.app",
+        messagingSenderId: "495445103559",
+        appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        console.log(window.location.search);
+        const uid=window.location.search.substring(5);
+        console.log(uid);
+
+        // 수정 uid 업데이트
+        const link = document.querySelector('.red-btn');
+        link.href = `./member_replace.html?uid=${uid}`;
+
+        async function getUserByUID(uid) {
+        const userRef = doc(db, "memberInfo", uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+            
+            let name = docSnap.data().name;
+            let age = docSnap.data().age;
+            let hobby = docSnap.data().hobby;
+            let blog = docSnap.data().blog;
+            let resolution = docSnap.data().resolution;
+            let image = docSnap.data().photo;
+
+            let temp_image_html=`<img class="image" src="${image}">`;
+            $('#name').append(name);
+            $('#age').append(age);
+            $('#hobby').append(hobby);
+            $('#blog').append(blog);
+            $('#resolution').append(resolution);
+            $('#image-box').append(temp_image_html);
+        } else {
+            console.log("데이터 없음!");
+        }
+        }
+        getUserByUID(uid);
+        $(function(){
+            $("#header").load("header.html");
+            $("#footer").load("footer.html");
+        });
+    </script>
+    <style>
+        body{
+            background-color: #f1f1f1;
+        }
+        .member-container{
+            background-color: white;
+            border-radius: 10px;
+            margin: 65px auto 0px;
+            padding: 10px;
+            width: 1050px;
+            height: auto;
+        }
+        .contents-title{
+            margin: 0px 12px;
+            width: 98%;
+            border-bottom: 1px solid #353535;
+            display: flex;
+            padding-bottom: 10px;
+        }
+        .contents-title > span {
+        width: 140px;
+        color: #646464;
+        font-size: 30px;
+        }
+
+        .main-container{
+            margin: 0px auto 5px;
+            /* border: 1px solid #353535; */
+            padding: 10px;
+            width: 1000px;
+            height: 540px;
+        }
+        .detail{
+            display: flex;
+            width: 98%;
+            height: 420px;
+            /* background-color: blue; */
+            padding: 10px;
+        }
+        .image-box{
+            width: 49%;
+        }
+        .image{
+            /* border: 1px solid #353535; */
+            border-radius: 10px;
+            width: 400px;
+            height: 400px;
+        }
+        .detail-box{
+            display: flex;
+            flex-direction: column;
+            width: 49%;
+            /* background-color: aqua; */
+            padding: 10px;
+            font-size: 25px;
+            color: #353535;
+        }
+        .name-box{
+            display: flex;
+            align-items: center;
+            width: 500px;
+        }
+        .text-box{
+            width: 480px;
+            height: 36px;
+            overflow:hidden;
+            text-overflow:clip;
+            white-space: nowrap;
+        }
+        .resolution-box{
+            margin-top: 5px;
+        }
+        .resolution{
+            width: 500px;
+            border : 1px solid black;
+            border-radius: 5px;
+            height: 185px;
+            padding: 5px 0px 10px 5px;
+
+            color: #353535;
+            font-size: 15px;
+            overflow:scroll;
+            overflow-x: hidden;
+            text-overflow:clip;
+            /* white-space: nowrap; */
+        }
+        .button-box{
+            display: flex;
+            align-items: center;
+            justify-content: right;
+            margin-left: 10px;
+            width: 97%;
+        }
+        .button-box>a{
+            text-align: center;
+            text-decoration: none;
+            color: white;
+        }
+        .gray-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 25px;
+            background-color: #666666;
+            color: white;
+            border-radius: 10%;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .red-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 25px;
+            background-color: #E8344E;
+            color: white;
+            border-radius: 10%;
+            padding: 5px;
+            cursor: pointer;
+        }
+        #cancle{
+            margin-right: auto;
+        }
+        #delete{
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 전체 컨테이너 -->
+    <div class="member-container">
+        <!-- 메인 헤더 -->
+        <div id = "header"></div>
+        <!-- 메인 컨테이너 -->
+        <div class="main-container">
+            <div class="contents-title">
+                <span class="title-text">상세정보</span>
+            </div>
+            <!-- 메인 컨텐츠 -->
+            <div class="detail">
+                <div class="image-box" id="image-box">
+                    
+                </div>
+                <div class="detail-box">
+                    <div class="detail-box-box">
+                        <div class="text-box"><span>이름 : <span id="name"></span></div>
+                        <div class="text-box"><span>나이 : <span id="age"></span></div>
+                        <div class="text-box"><span>취미 : <span id="hobby"></span></div>
+                        <div class="text-box"><span>블로그 : <span id="blog"></span></div>
+                    </div>
+                    <div class="resolution-box">
+                        <div class="text-box">나의 다짐</div>
+                        <div class="resolution">
+                            <span id="resolution"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-box">
+                <a class="gray-btn" id="cancle" href="index.html">이전</a>
+                <a class="red-btn" href="./member_replace.html?uid=">수정</a>
+                <a class="gray-btn" id = "delete"href="">삭제</a>
+            </div>
+        </div>
+        <div id = "footer"></div>
+    </div>
+</body>
+</html>
