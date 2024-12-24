@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <link rel="stylesheet" href="css/styles.css" /> 코드 분리시 사용-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--import: 제이쿼리-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>팀2CODE: Sign up</title>
+
+    <style>
+      /* variables.css */
+      :root {
+        --black: #222222; /* 기본 폰트 컬러 */
+        --gray: rgb(0, 0, 0, 30%); /* 자주 쓰이는 밝은 회색 */
+        --main-red: #e8344e; /* 팀 컬러: 레드 */
+      }
+
+      @media screen and (max-width: 340px) {
+        body {
+          width: 340px;
+        }
+      }
+      /* styles.css */
+      body {
+        font-family: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+          "Helvetica Neue", sans-serif;
+        color: var(--black);
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
+      }
+      /* memberinfo-form.css */
+      .memberinfo-header {
+        margin-top: 8vh;
+        margin-bottom: 5vh;
+        text-align: center;
+      }
+
+      .memberinfo-header__title {
+        margin-bottom: 2vh;
+        font-size: 40px;
+        font-weight: 700;
+      }
+
+      .memberinfo-header__text {
+        font-size: 20px;
+        opacity: 0.6;
+      }
+
+      .memberinfo-form {
+        display: flex;
+        flex-direction: column;
+        margin: 0px 30px;
+      }
+
+      .memberinfo-form__inputset {
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .memberinfo-form__label {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .memberinfo-form__input {
+        padding: 10px;
+        font-size: 20px;
+        border: none;
+        border-bottom: 2px solid var(--gray);
+      }
+      .memberinfo-form__input:focus {
+        border-color: var(--main-red);
+      }
+
+      .memberinfo-form__btns {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .memberinfo-form__btn {
+        cursor: pointer;
+        border: none;
+        padding: 15px 10px;
+        font-size: 20px;
+        border-radius: 5px;
+        font-weight: 600;
+      }
+      .memberinfo-form__btn:hover {
+        color: white;
+      }
+      #memberinfo-form__addMember-btn:hover {
+        background-color: var(--main-red);
+      }
+      #memberinfo-form__cancel-btn {
+        margin-right: 20px;
+      }
+      #memberinfo-form__cancel-btn:hover {
+        background-color: var(--gray);
+      }
+    </style>
+
+    <script type="module">
+      // -- JS: DB 임포트
+      // Firebase SDK 라이브러리 가져오기
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import {
+        collection,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+      // Firebase 구성 정보 설정
+      const firebaseConfig = {
+        apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
+        authDomain: "teampage-2code.firebaseapp.com",
+        projectId: "teampage-2code",
+        storageBucket: "teampage-2code.firebasestorage.app",
+        messagingSenderId: "495445103559",
+        appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
+      };
+
+      // Firebase 인스턴스 초기화
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // -- JS: '멤버등록' 버튼 클릭 시, 입력값 → DB저장 & 이전 페이지로 이동
+      // -- To-do : 이전 페이지 VS 새창-삭제
+      $("#memberinfo-form__addMember-btn").click(async function () {
+        let doc = {
+          name: $("#memberinfo_name").val(),
+          age: $("#memberinfo_age").val(),
+          hobby: $("#memberinfo_hobby").val(),
+          blog: $("#memberinfo_blog").val(),
+          photo: $("#memberinfo_photo").val(), // 사진 업로드 및 활용을 위해서는 Storage가 필요한데 유료이다(그래서 일단 URL로)
+          resolution: $("#memberinfo_resolution").val(),
+        }; // 입력 값 dict화
+        await addDoc(collection(db, "memberInfo"), doc);
+        alert("저장 완료!");
+        window.location.href = "index.html";
+      });
+
+      // -- JS: '등록취소' 버튼 클릭 시, 이전 페이지로 이동
+      $("#memberinfo-form__cancel-btn").click(async function () {
+        history.back(); // window.location.href = "index.html"; 과 동일
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- 공용 헤더 이식공간 -->
+
+    <!-- 페이지 헤더 -->
+    <header class="memberinfo-header">
+      <h1 class="memberinfo-header__title">멤버 등록</h1>
+      <p class="memberinfo-header__text">
+        멤버 등록을 위해서는 아래 폼을 작성해주세요.
+      </p>
+    </header>
+
+    <!-- 멤버 정보 입력 폼-->
+    <form class="memberinfo-form">
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_name" class="memberinfo-form__label">이름</label>
+        <input
+          type="text"
+          class="memberinfo-form__input"
+          id="memberinfo_name"
+          placeholder="이름을 입력하세요"
+          required
+        />
+      </div>
+
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_age" class="memberinfo-form__label">나이</label>
+        <input
+          type="text"
+          class="memberinfo-form__input"
+          id="memberinfo_age"
+          placeholder="나이를 입력하세요"
+          required
+        />
+      </div>
+
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_hobby" class="memberinfo-form__label"
+          >취미</label
+        >
+        <input
+          type="text"
+          class="memberinfo-form__input"
+          id="memberinfo_hobby"
+          placeholder="취미를 입력하세요"
+          required
+        />
+      </div>
+
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_blog" class="memberinfo-form__label"
+          >블로그</label
+        >
+        <input
+          type="url"
+          class="memberinfo-form__input"
+          id="memberinfo_blog"
+          placeholder="개인 블로그 주소를 입력하세요"
+          required
+        />
+      </div>
+
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_photo" class="memberinfo-form__label"
+          >개인사진</label
+        >
+        <input
+          type="url"
+          class="memberinfo-form__input"
+          id="memberinfo_photo"
+          placeholder="이미지 주소를 입력하세요"
+          required
+        />
+      </div>
+
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_resolution" class="memberinfo-form__label"
+          >나의 다짐</label
+        >
+        <input
+          type="text"
+          class="memberinfo-form__input"
+          id="memberinfo_resolution"
+          placeholder="부트캠프에 임하는 나의 다짐을 입력하세요"
+          required
+        />
+      </div>
+      <!-- 버튼 세트 -->
+      <div class="memberinfo-form__btns">
+        <!-- 취소 버튼: 클릭 시 이전 창의 멤버위치로 돌아가야 함-->
+        <input
+          class="memberinfo-form__btn"
+          id="memberinfo-form__cancel-btn"
+          type="submit"
+          value="등록취소"
+        />
+        <!-- 등록 버튼: 클릭 시 DB 삽입-->
+        <input
+          class="memberinfo-form__btn"
+          id="memberinfo-form__addMember-btn"
+          type="submit"
+          value="멤버등록"
+        />
+        <!-- 버튼은 새로고침이안돼요 -->
+      </div>
+    </form>
+  </body>
+</html>
