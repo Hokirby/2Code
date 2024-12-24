@@ -59,9 +59,9 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    function add() {
-      location.href = "member_add.html";
-    }
+    $(document).on('click', '.saveBtn', function () {
+      location.href = 'member_add.html';
+    })
 
     $(document).on('click', '.card', function () {
       const docid = $(this).attr('data-id');
