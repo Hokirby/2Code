@@ -1,0 +1,24 @@
+.main-page__logo-box,
+.main-page__logo {
+  margin-top: 70px;
+}
+
+.main-page__team-intro {
+  text-align: center;
+
+  margin: 70px auto 0px auto;
+
+  border: solid var(--main-red);
+}
+
+.main-page__member-intro {
+  width: 1130px;
+  height: 500px;
+  margin: 10px auto 0px auto;
+  text-align: center;
+  border: solid black;
+}
+
+.main-page__saveBtn {
+  text-align: right;
+}

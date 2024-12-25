@@ -1,0 +1,67 @@
+.memberinfo-header {
+  margin-top: 8vh;
+  margin-bottom: 5vh;
+  text-align: center;
+}
+
+.memberinfo-header__title {
+  margin-bottom: 2vh;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.memberinfo-header__text {
+  font-size: 20px;
+  opacity: 0.6;
+}
+
+.memberinfo-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 30px;
+}
+
+.memberinfo-form__inputset {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.memberinfo-form__label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.memberinfo-form__input {
+  padding: 10px;
+  font-size: 20px;
+  border: none;
+  border-bottom: 2px solid var(--gray);
+}
+.memberinfo-form__input:focus {
+  border-color: var(--main-red);
+}
+
+.memberinfo-form__btns {
+  display: flex;
+  justify-content: flex-end;
+}
+.memberinfo-form__btn {
+  cursor: pointer;
+  border: none;
+  padding: 15px 10px;
+  font-size: 20px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.memberinfo-form__btn:hover {
+  color: white;
+}
+#memberinfo-form__addMember-btn:hover {
+  background-color: var(--main-red);
+}
+#memberinfo-form__cancel-btn {
+  margin-right: 20px;
+}
+#memberinfo-form__cancel-btn:hover {
+  background-color: var(--gray);
+}

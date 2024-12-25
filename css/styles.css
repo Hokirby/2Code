@@ -1,0 +1,62 @@
+/* styles.css : 모든 CSS가 임포트되는 곳 & 모든 스크린에 영향을 주는 CSS */
+/*  └ FONT: Wanted Sans */
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/split/WantedSans.min.css");
+/*  └ FONT: Gaegu */
+@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap");
+/*  └ FONT: Gowun Dodum */
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
+/*  └ 공통으로 사용할 변수 */
+@import "variables.css";
+/*  └ 디폴트 CSS 제거 */
+@import "reset.css";
+
+/* 디렉토리: Components : 페이지 구분없이 재활용되는 파츠 */
+@import "components/memberinfo-form.css";
+@import "components/main-header.css";
+@import "components/main-footer.css";
+
+/* 디렉토리: Screens : 특정 페이지에서만 단독 사용 */
+@import "screens/index.css";
+@import "screens/member_detail.css";
+@import "screens/member_replace.css";
+
+/*  └ FONT: 둥근모꼴+ Fixedsys */
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 공통 CSS-------------------------- */
+
+/* 화면이 너무 좁은 경우 박스너비 고정*/
+@media screen and (max-width: 340px) {
+  body {
+    width: 340px;
+  }
+}
+
+body {
+  font-family: "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui,
+    "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  color: var(--black);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+/* .gaegu-regular {
+  font-family: "Gaegu", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gaegu-bold {
+  font-family: "Gaegu", serif;
+  font-weight: 700;
+  font-style: normal;
+} */
