@@ -74,7 +74,6 @@
         // 멤버 삭제
         $("#member-detail__delete").click(async function () {
             if (confirm('정말 삭제하시겠습니까?')){
-                console.log('test');
                 
                 await deleteDoc(doc(db, "memberInfo", uid));
                 alert('삭제 완료!');
@@ -124,7 +123,6 @@
                 <a class="member-detail__gray-btn" id = "member-detail__delete" href="javascript:;">삭제</a>
             </div>
         </div>
-
     </div>
     <!-- 메인 푸터 -->
     <div id = "member-detail__main-footer"></div>
