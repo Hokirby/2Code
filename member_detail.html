@@ -83,6 +83,32 @@
                 window.location.reload();
             }
         });
+
+        //방명록 글 등록
+        $('#add-comment').click(async function() {
+            let id = $('#id').val();
+            let password = $('#password').val();
+            let content = $('#content').val();
+            let date = new Date();
+
+            let doc = {
+                id: id,
+                password: password,
+                comment: content,
+                date: date,
+                memberUid: uid,
+            };
+
+            try {
+                await addDoc(collection(db, "comment"), doc);
+            } catch (error) {
+                console.error(error);
+                console.error(doc);
+                alert("등록 실패!");
+            }
+            window.location.href = `member_detail.html?uid=${uid}`;
+        });
+
     </script>
 </head>
 <body class="member-detail__body">
@@ -254,7 +280,7 @@
                         <div class="left-box">
                             <input type="text" id="id" required placeholder="닉네임">
                             <input type="password" id="password" maxlength="4" required placeholder="비밀번호">
-                            <button type="submit" class="comment-submit-btn">등록</button>
+                            <button type="button" id="add-comment" class="comment-submit-btn">등록</button>
                         </div>
                         <div class="right-box">
                             <textarea id="content" required></textarea>
