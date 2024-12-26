@@ -1,5 +1,6 @@
-#member-detail__body {
+.member-detail__body {
   background-color: #f1f1f1;
+  min-height: 1000px;
 }
 .member-detail__container {
   background-color: white;
@@ -7,7 +8,7 @@
   margin: 100px auto 100px;
   padding: 10px;
   width: 1050px;
-  height: auto;
+  height: 550px;
 }
 .member-detail__title-box {
   margin: 0px 12px;
@@ -88,7 +89,7 @@
   align-items: center;
   justify-content: right;
   margin-left: 10px;
-  width: 97%;
+  width: 998px;
 }
 .member-detail__button-box > a {
   text-align: center;
