@@ -56,12 +56,12 @@
 .memberinfo-form__btn:hover {
   color: white;
 }
-#memberinfo-form__addMember-btn:hover {
+.memberinfo-form__ok-btn:hover {
   background-color: var(--main-red);
 }
-#memberinfo-form__cancel-btn {
+.memberinfo-form__cancel-btn {
   margin-right: 20px;
 }
-#memberinfo-form__cancel-btn:hover {
+.memberinfo-form__cancel-btn:hover {
   background-color: var(--gray);
 }

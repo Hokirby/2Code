@@ -12,7 +12,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     
         // Firebase 구성 정보 설정
@@ -34,7 +34,7 @@
 
         // 수정 uid 업데이트
         const link = document.querySelector('.member-detail__red-btn');
-        link.href = `./member_replace.html?uid=${uid}`;
+        link.href = `./member_modify.html?uid=${uid}`;
 
         async function getUserByUID(uid) {
         const userRef = doc(db, "memberInfo", uid);
@@ -59,13 +59,31 @@
             console.log("데이터 없음!");
         }
         }
+    
+
         getUserByUID(uid);
         $(function(){
             $("#member-detail__main-header").load("header.html");
             $("#member-detail__main-footer").load("footer.html");
         });
+
+        // 멤버 삭제
+        $("#member-detail__delete").click(async function () {
+            if (confirm('정말 삭제하시겠습니까?')){
+                console.log('test');
+                
+                await deleteDoc(doc(db, "memberInfo", uid));
+                alert('삭제 완료!');
+                window.location.href="index.html";
+            } else {
+                alert('취소되었습니다');
+                window.location.reload();
+            }
+        });
+        
     </script>
 </head>
+
 <body id="member-detail__body">
     <!-- 메인 헤더 -->
     <div id = "member-detail__main-header"></div>
@@ -98,8 +116,13 @@
             </div>
             <div class="member-detail__button-box">
                 <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
+<<<<<<< HEAD
                 <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
+                <a class="member-detail__gray-btn" id = "member-detail__delete" href="javascript:;">삭제</a>
+=======
+                <a class="member-detail__red-btn" href="./member_modify.html?uid=">수정</a>
                 <a class="member-detail__gray-btn" id = "member-detail__delete"href="">삭제</a>
+>>>>>>> 1d9b639847b460e5e40fb7e526929b3c5dc46d8b
             </div>
         </div>
 
