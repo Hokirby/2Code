@@ -49,6 +49,12 @@ body {
   font-variation-settings: "wdth" 100;
 }
 
+.real-box {
+  margin: 150px auto 50px;
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 15%;
+}
 /* .gaegu-regular {
   font-family: "Gaegu", serif;
   font-weight: 400;
