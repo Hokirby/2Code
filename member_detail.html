@@ -28,9 +28,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        console.log(window.location.search);
         const uid=window.location.search.substring(5);
-        console.log(uid);
 
         // 수정 uid 업데이트
         const link = document.querySelector('.red-btn');
@@ -149,7 +147,6 @@
             overflow:scroll;
             overflow-x: hidden;
             text-overflow:clip;
-            /* white-space: nowrap; */
         }
         .button-box{
             display: flex;
@@ -196,10 +193,10 @@
     </style>
 </head>
 <body>
+    <!-- 메인 헤더 -->
+    <div id = "header"></div>
     <!-- 전체 컨테이너 -->
     <div class="member-container">
-        <!-- 메인 헤더 -->
-        <div id = "header"></div>
         <!-- 메인 컨테이너 -->
         <div class="main-container">
             <div class="contents-title">
@@ -231,7 +228,7 @@
                 <a class="gray-btn" id = "delete"href="">삭제</a>
             </div>
         </div>
-        <div id = "footer"></div>
     </div>
+    <div id = "footer"></div>
 </body>
 </html>
