@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- <link rel="stylesheet" href="css/styles.css" /> 코드 분리시 사용-->
+    <link rel="stylesheet" href="css\reset.css" />
+    <link rel="stylesheet" href="css\styles.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -9,100 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <title>팀2CODE: Sign up</title>
-
-    <style>
-      /* variables.css */
-      :root {
-        --black: #222222; /* 기본 폰트 컬러 */
-        --gray: rgb(0, 0, 0, 30%); /* 자주 쓰이는 밝은 회색 */
-        --main-red: #e8344e; /* 팀 컬러: 레드 */
-      }
-
-      @media screen and (max-width: 340px) {
-        body {
-          width: 340px;
-        }
-      }
-      /* styles.css */
-      body {
-        font-family: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-          "Helvetica Neue", sans-serif;
-        color: var(--black);
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-style: normal;
-        font-variation-settings: "wdth" 100;
-      }
-      /* memberinfo-form.css */
-      .memberinfo-header {
-        margin-top: 8vh;
-        margin-bottom: 5vh;
-        text-align: center;
-      }
-
-      .memberinfo-header__title {
-        margin-bottom: 2vh;
-        font-size: 40px;
-        font-weight: 700;
-      }
-
-      .memberinfo-header__text {
-        font-size: 20px;
-        opacity: 0.6;
-      }
-
-      .memberinfo-form {
-        display: flex;
-        flex-direction: column;
-        margin: 0px 30px;
-      }
-
-      .memberinfo-form__inputset {
-        margin-bottom: 30px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .memberinfo-form__label {
-        font-weight: 600;
-        margin-bottom: 5px;
-      }
-      .memberinfo-form__input {
-        padding: 10px;
-        font-size: 20px;
-        border: none;
-        border-bottom: 2px solid var(--gray);
-      }
-      .memberinfo-form__input:focus {
-        border-color: var(--main-red);
-      }
-
-      .memberinfo-form__btns {
-        display: flex;
-        justify-content: flex-end;
-      }
-      .memberinfo-form__btn {
-        cursor: pointer;
-        border: none;
-        padding: 15px 10px;
-        font-size: 20px;
-        border-radius: 5px;
-        font-weight: 600;
-      }
-      .memberinfo-form__btn:hover {
-        color: white;
-      }
-      #memberinfo-form__addMember-btn:hover {
-        background-color: var(--main-red);
-      }
-      #memberinfo-form__cancel-btn {
-        margin-right: 20px;
-      }
-      #memberinfo-form__cancel-btn:hover {
-        background-color: var(--gray);
-      }
-    </style>
 
     <script type="module">
       // -- JS: DB 임포트
@@ -147,7 +54,7 @@
 
       // -- JS: '등록취소' 버튼 클릭 시, 이전 페이지로 이동
       $("#memberinfo-form__cancel-btn").click(async function () {
-        history.back(); // window.location.href = "index.html"; 과 동일
+        window.location.href = "index.html"; // history.back();과 동일
       });
     </script>
   </head>
@@ -244,7 +151,7 @@
         <input
           class="memberinfo-form__btn"
           id="memberinfo-form__cancel-btn"
-          type="submit"
+          type="button"
           value="등록취소"
         />
         <!-- 등록 버튼: 클릭 시 DB 삽입-->

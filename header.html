@@ -1,50 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
-        * {
-            font-family: "Gowun Dodum", sans-serif;
-        }
-        .header {
-            position:fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 10%;
-        }
-        .container-fluid {
-            height: 80px;
-            background-color: white;
-            text-align: center;
-            color: white;
-        }
-        .logo {
-            width: 80px;
-            height: 80px;
-            float: left;
-        }
-        .mainlink {
-            text-decoration: none;
-            font-size: xx-large;
-            color: rgb(232, 52, 78);
-            font-weight: 900;
-        }
-    </style>
-</head>
+  <head>
+    <link rel="stylesheet" href="css\reset.css" />
+    <link rel="stylesheet" href="css\styles.css" />
+    <style></style>
+  </head>
 
-<body>
-    <div class="header">
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
-                <img class="logo" src="#" alt="Logo"
-                    width="80" height="80">
-                <li class="nav-item">
-                    <a class="mainlink" href="메인페이지주소">2Code</a>
-                </li>
-            </div>
-        </nav>
+  <body>
+    <div class="main-header__box">
+      <nav class="main-header__navbar bg-body-tertiary">
+        <div class="main-header__container-fluid">
+          <img
+            class="main-header__logo"
+            src="#"
+            alt="Logo"
+            width="80"
+            height="80"
+          />
+          <li class="main-header__nav-item">
+            <a class="main-header__mainlink" href="메인페이지주소">2Code</a>
+          </li>
+        </div>
+      </nav>
     </div>
-</body>    
-
+  </body>
 </html>
