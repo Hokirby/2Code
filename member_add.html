@@ -56,11 +56,18 @@
       $("#memberinfo-form__cancel-btn").click(async function () {
         window.location.href = "index.html"; // history.back();과 동일
       });
+
+      // -- JS: 메인 헤더&푸터 이식
+      $(function () {
+        $("#member-detail__main-header").load("header.html");
+        $("#member-detail__main-footer").load("footer.html");
+      });
     </script>
   </head>
 
   <body>
-    <!-- 공용 헤더 이식공간 -->
+    <!-- 메인 헤더 -->
+    <div id="member-detail__main-header"></div>
 
     <!-- 페이지 헤더 -->
     <header class="memberinfo-header">
@@ -161,8 +168,10 @@
           type="submit"
           value="멤버등록"
         />
-        <!-- 버튼은 새로고침이안돼요 -->
       </div>
     </form>
+
+    <!-- 메인 푸터 -->
+    <div id="member-detail__main-footer"></div>
   </body>
 </html>
