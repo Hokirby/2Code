@@ -30,9 +30,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        console.log(window.location.search);
         const uid=window.location.search.substring(5);
-        console.log(uid);
 
         // 수정 uid 업데이트
         const link = document.querySelector('.member-detail__red-btn');
@@ -64,17 +62,15 @@
         getUserByUID(uid);
         $(function(){
             $("#member-detail__main-header").load("header.html");
-            $("#footer").load("footer.html");
+            $("#member-detail__main-footer").load("footer.html");
         });
     </script>
-    <style>
-    </style>
 </head>
 <body id="member-detail__body">
+    <!-- 메인 헤더 -->
+    <div id = "member-detail__main-header"></div>
     <!-- 전체 컨테이너 -->
     <div class="member-detail__container">
-        <!-- 메인 헤더 -->
-        <div id = "member-detail__main-header"></div>
         <!-- 메인 컨테이너 -->
         <div class="member-detail__main-container">
             <div class="member-detail__title-box">
@@ -106,8 +102,9 @@
                 <a class="member-detail__gray-btn" id = "member-detail__delete"href="">삭제</a>
             </div>
         </div>
-        <!-- 메인 푸터 -->
-        <div id = "member-detail__main-footer"></div>
+
     </div>
+    <!-- 메인 푸터 -->
+    <div id = "member-detail__main-footer"></div>
 </body>
 </html>

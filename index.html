@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="css\reset.css" />
-    <link rel="stylesheet" href="css\styles.css" />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2Code</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style></style>
 
-    <script type="module">
-      // Firebase SDK 라이브러리 가져오기
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import {
-        collection,
-        addDoc,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+<head>
+  <link rel="stylesheet" href="css\reset.css" />
+  <link rel="stylesheet" href="css\styles.css" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2Code</title>
 
-      // Firebase 구성 정보 설정
-      const firebaseConfig = {
-        apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
-        authDomain: "teampage-2code.firebaseapp.com",
-        projectId: "teampage-2code",
-        storageBucket: "teampage-2code.firebasestorage.app",
-        messagingSenderId: "495445103559",
-        appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
-      };
+  <!-- 부트스트랩 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 
-      // Firebase 인스턴스 초기화
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+  <!-- 제이쿼리 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style></style>
 
-      $(document).on("click", ".saveBtn", function () {
-        location.href = "member_add.html";
-      });
+  <script type="module">
+    // Firebase SDK 라이브러리 가져오기
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { collection, addDoc, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-      $(document).on("click", ".card", function () {
-        const docid = $(this).attr("data-id");
-        location.href = `member_detail.html?uid=${docid}`;
-      });
+    // Firebase 구성 정보 설정
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
+      authDomain: "teampage-2code.firebaseapp.com",
+      projectId: "teampage-2code",
+      storageBucket: "teampage-2code.firebasestorage.app",
+      messagingSenderId: "495445103559",
+      appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
+    };
 
-      let docs = await getDocs(collection(db, "memberInfo"));
-      docs.forEach((doc) => {
-        let row = doc.data();
-        let docid = doc.id;
-        console.log(docid);
-        let photo = row["photo"];
-        let name = row["name"];
+    // Firebase 인스턴스 초기화
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        let temp_html = `
+    // 멤버 등록 버튼 클릭시 등록페이지로 이동
+    $(document).on("click", ".main-page__saveBtn", function () {
+      location.href = "member_add.html";
+    });
+
+    // 멤버 카드 클릭시 상세페이지로 이동
+    $(document).on("click", ".card", function () {
+      const docid = $(this).attr("data-id");
+      location.href = `member_detail.html?uid=${docid}`;
+    });
+
+    // Firebase에서 데이터를 가져오는 형식(데이터와 UID)
+    let docs = await getDocs(collection(db, "memberInfo"));
+    docs.forEach((doc) => {
+      let row = doc.data();
+      let docid = doc.id;
+
+      let photo = row["photo"];
+      let name = row["name"];
+
+      let temp_html = `
       <div class="col">
         <div class="card" data-id="${docid}">
           <img src="${photo}">
@@ -66,31 +67,32 @@
           </div>
         </div>
       </div>`;
-        $("#card").append(temp_html);
-      });
-    </script>
-  </head>
+      $("#card").append(temp_html);
+    });
+  </script>
+</head>
 
-  <body>
-    <!-- 팀 로고 -->
-    <div class="main-page__logo-box" style="text-align: center">
-      <img class="main-page__logo" src="" alt="팀 로고" />
+<body>
+  <!-- 팀 로고 -->
+  <div class="main-page__logo-box" style="text-align: center">
+    <img class="main-page__logo" src="" alt="팀 로고" />
+  </div>
+
+  <!-- 팀 소개 -->
+  <div class="main-page__team-intro">
+    <h1>2Code</h1>
+    <p>안녕하세요. 반갑습니다.</p>
+  </div>
+
+  <div class="main-page__member-intro">
+    <!-- 등록 버튼 -->
+    <div class="main-page__saveBtn">
+      <button type="button" class="btn btn-danger">멤버 등록</button>
     </div>
 
-    <!-- 팀 소개 -->
-    <div class="main-page__team-intro">
-      <h1>2Code</h1>
-      <p>안녕하세요. 반갑습니다.</p>
-    </div>
+    <!-- 멤버 카드 -->
+    <div id="card" class="row row-cols-1 row-cols-md-5 g-4"></div>
+  </div>
+</body>
 
-    <div class="main-page__member-intro">
-      <!-- 등록 버튼 -->
-      <div class="main-page__saveBtn">
-        <button type="button" class="btn btn-danger">멤버 등록</button>
-      </div>
-
-      <!-- 멤버 카드 -->
-      <div id="card" class="row row-cols-1 row-cols-md-5 g-4"></div>
-    </div>
-  </body>
 </html>
