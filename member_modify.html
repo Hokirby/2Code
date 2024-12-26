@@ -4,15 +4,11 @@
     <link rel="stylesheet" href="css\reset.css" />
     <link rel="stylesheet" href="css\styles.css" />
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--import: 제이쿼리-->
+    <title>팀2CODE</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <title>팀2CODE: Sign up</title>
-
     <script type="module">
-      // -- JS: DB 임포트
       // Firebase SDK 라이브러리 가져오기
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
       import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
@@ -20,9 +16,15 @@
         collection,
         addDoc,
       } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      import {
+        getDocs,
+        doc,
+        getDoc,
+        updateDoc,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
       // Firebase 구성 정보 설정
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
       const firebaseConfig = {
         apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
         authDomain: "teampage-2code.firebaseapp.com",
@@ -36,37 +38,59 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // -- JS: '멤버등록' 버튼 클릭 시, 입력값 → DB저장 & 이전 페이지로 이동
-      // -- To-do : 이전 페이지 VS 새창-삭제
-      $("#memberinfo-form__addMember-btn").click(async function () {
+      console.log(window.location.search);
+      const uid = window.location.search.substring(5);
+      console.log(uid);
+
+      const userRef = doc(db, "memberInfo", uid);
+      const docSnap = await getDoc(userRef);
+
+      if (docSnap.exists()) {
+        $("#memberinfo_name").val(docSnap.data().name);
+        $("#memberinfo_age").val(docSnap.data().age);
+        $("#memberinfo_hobby").val(docSnap.data().hobby);
+        $("#memberinfo_blog").val(docSnap.data().blog);
+        $("#memberinfo_photo").val(docSnap.data().photo);
+        $("#memberinfo_resolution").val(docSnap.data().resolution);
+      }
+
+      $("#modify").click(async function () {
+        let name = $("#memberinfo_name").val();
+        let age = $("#memberinfo_age").val();
+        let hobby = $("#memberinfo_hobby").val();
+        let blog = $("#memberinfo_blog").val();
+        let photo = $("#memberinfo_photo").val();
+        let resolution = $("#memberinfo_resolution").val();
         let doc = {
-          name: $("#memberinfo_name").val(),
-          age: $("#memberinfo_age").val(),
-          hobby: $("#memberinfo_hobby").val(),
-          blog: $("#memberinfo_blog").val(),
-          photo: $("#memberinfo_photo").val(), // 사진 업로드 및 활용을 위해서는 Storage가 필요한데 유료이다(그래서 일단 URL로)
-          resolution: $("#memberinfo_resolution").val(),
-        }; // 입력 값 dict화
-        await addDoc(collection(db, "memberInfo"), doc);
-        alert("저장 완료!");
-        window.location.href = "index.html";
+          name: name,
+          age: age,
+          hobby: hobby,
+          blog: blog,
+          photo: photo,
+          resolution: resolution,
+        };
+        try {
+          console.log(doc);
+          await updateDoc(userRef, doc);
+        } catch (error) {
+          console.error(error);
+          alert("수정 실패!");
+        }
+        window.location.href = `member_detail.html?uid=${uid}`;
       });
 
-      // -- JS: '등록취소' 버튼 클릭 시, 이전 페이지로 이동
-      $("#memberinfo-form__cancel-btn").click(async function () {
-        window.location.href = "index.html"; // history.back();과 동일
+      $("#before").click(async function () {
+        window.location.href = `member_detail.html?uid=${uid}`;
       });
     </script>
+    <style></style>
   </head>
 
   <body>
-    <!-- 공용 헤더 이식공간 -->
-
-    <!-- 페이지 헤더 -->
     <header class="memberinfo-header">
-      <h1 class="memberinfo-header__title">멤버 등록</h1>
+      <h1 class="memberinfo-header__title">멤버 수정</h1>
       <p class="memberinfo-header__text">
-        멤버 등록을 위해서는 아래 폼을 작성해주세요.
+        멤버 수정을 위해서는 아래 폼을 수정해주세요.
       </p>
     </header>
 
@@ -147,21 +171,18 @@
       </div>
       <!-- 버튼 세트 -->
       <div class="memberinfo-form__btns">
-        <!-- 취소 버튼: 클릭 시 이전 창의 멤버위치로 돌아가야 함-->
         <input
           class="memberinfo-form__btn memberinfo-form__cancel-btn"
-          id="memberinfo-form__cancel-btn"
+          id="before"
           type="button"
-          value="등록취소"
+          value="이전"
         />
-        <!-- 등록 버튼: 클릭 시 DB 삽입-->
         <input
           class="memberinfo-form__btn memberinfo-form__ok-btn"
-          id="memberinfo-form__addMember-btn"
-          type="submit"
-          value="멤버등록"
+          id="modify"
+          type="button"
+          value="멤버수정"
         />
-        <!-- 버튼은 새로고침이안돼요 -->
       </div>
     </form>
   </body>

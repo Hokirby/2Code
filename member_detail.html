@@ -34,7 +34,7 @@
 
         // 수정 uid 업데이트
         const link = document.querySelector('.member-detail__red-btn');
-        link.href = `./member_replace.html?uid=${uid}`;
+        link.href = `./member_modify.html?uid=${uid}`;
 
         async function getUserByUID(uid) {
         const userRef = doc(db, "memberInfo", uid);
@@ -82,15 +82,13 @@
         });
         
     </script>
-    <style>
-    </style>
 </head>
 
 <body id="member-detail__body">
+    <!-- 메인 헤더 -->
+    <div id = "member-detail__main-header"></div>
     <!-- 전체 컨테이너 -->
     <div class="member-detail__container">
-        <!-- 메인 헤더 -->
-        <div id = "member-detail__main-header"></div>
         <!-- 메인 컨테이너 -->
         <div class="member-detail__main-container">
             <div class="member-detail__title-box">
@@ -118,12 +116,18 @@
             </div>
             <div class="member-detail__button-box">
                 <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
+<<<<<<< HEAD
                 <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
                 <a class="member-detail__gray-btn" id = "member-detail__delete" href="javascript:;">삭제</a>
+=======
+                <a class="member-detail__red-btn" href="./member_modify.html?uid=">수정</a>
+                <a class="member-detail__gray-btn" id = "member-detail__delete"href="">삭제</a>
+>>>>>>> 1d9b639847b460e5e40fb7e526929b3c5dc46d8b
             </div>
         </div>
-        <!-- 메인 푸터 -->
-        <div id = "member-detail__main-footer"></div>
+
     </div>
+    <!-- 메인 푸터 -->
+    <div id = "member-detail__main-footer"></div>
 </body>
 </html>
