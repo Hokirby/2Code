@@ -7,9 +7,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>멤버 등록/수정 페이지</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <title>팀2CODE</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="module">
     // Firebase SDK 라이브러리 가져오기
@@ -57,7 +55,7 @@
       $("#memberinfo_resolution").val(docSnap.data().resolution);
     }
 
-    $("#replace").click(async function () {
+    $("#modify").click(async function () {
       let name = $("#memberinfo_name").val();
       let age = $("#memberinfo_age").val();
       let hobby = $("#memberinfo_hobby").val();
@@ -133,7 +131,7 @@
     <!-- 버튼 세트 -->
     <div class="memberinfo-form__btns">
       <input class="memberinfo-form__btn" id="before" type="button" value="이전" />
-      <input class="memberinfo-form__btn" id="replace" type="button" value="멤버수정" />
+      <input class="memberinfo-form__btn" id="modify" type="button" value="멤버수정" />
     </div>
   </form>
 </body>

@@ -34,7 +34,7 @@
 
         // 수정 uid 업데이트
         const link = document.querySelector('.member-detail__red-btn');
-        link.href = `./member_replace.html?uid=${uid}`;
+        link.href = `./member_modify.html?uid=${uid}`;
 
         async function getUserByUID(uid) {
         const userRef = doc(db, "memberInfo", uid);
@@ -98,7 +98,7 @@
             </div>
             <div class="member-detail__button-box">
                 <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
-                <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
+                <a class="member-detail__red-btn" href="./member_modify.html?uid=">수정</a>
                 <a class="member-detail__gray-btn" id = "member-detail__delete"href="">삭제</a>
             </div>
         </div>
