@@ -1,13 +1,14 @@
-#member-detail__body {
+.member-detail__body {
   background-color: #f1f1f1;
+  min-height: 1200px;
 }
 .member-detail__container {
   background-color: white;
   border-radius: 10px;
-  margin: 100px auto 0px;
+  margin: 150px auto 100px;
   padding: 10px;
   width: 1050px;
-  height: auto;
+  height: 550px;
 }
 .member-detail__title-box {
   margin: 0px 12px;
@@ -88,7 +89,7 @@
   align-items: center;
   justify-content: right;
   margin-left: 10px;
-  width: 97%;
+  width: 998px;
 }
 .member-detail__button-box > a {
   text-align: center;
@@ -124,4 +125,117 @@
 }
 #member-detail__delete {
   margin-left: 5px;
+}
+
+.comment-box{
+  margin: 10px 0px 10px -10px;
+  /* border: 1px solid #353535; */
+  padding: 10px;
+  width: 1050px;
+  min-height: 500px;
+  background-color: white;
+  border-radius: 10px;
+}
+.comment-text{
+  padding: 10px;
+  margin: 0px auto 0px;
+  width: 92%;
+  border-bottom: 1px solid #353535;
+  display: flex;
+  font-size: 30px;
+}
+.comment-list{
+  margin: auto;
+  padding: 10px;
+  width: 94%;
+  min-height: 500px;
+  /* background-color: #353535; */
+}
+.comment{
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  height: 50px;
+}
+.comment-id{
+  width: 10%;
+}
+.comment-word{
+  width: 700px;
+}
+.comment-btn-box{
+  margin: 0px auto 0px;
+  display: flex;
+  width: 100px;
+}
+.comment-fix-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 20px;
+    background-color: var(--main-red);
+    color: white;
+    border-radius: 10%;
+    padding: 5px;
+    cursor: pointer;
+}
+.comment-del-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 20px;
+  background-color: #666666;
+  color: white;
+  border-radius: 10%;
+  padding: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.comment-date{
+  width: 10%;
+}
+.form-container {
+  display: flex;
+  margin-top: 20px;
+  padding: 10px;
+  width: 950px;
+}
+.left-box {
+  margin-left: 20px;
+  width: 10%;
+}
+.right-box {
+  width: 85%;
+}
+#id,#password{
+  padding: 5px;
+  width: 100px;
+  height: 20px;
+  margin-bottom: 10px;
+}
+#content{
+  margin-left: 40px;
+  width: 860px;
+  height: 200px;
+  resize: none;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.comment-submit-btn{
+  display: block;
+  width: 112px;
+  height: 40px;
+  padding: 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 98px;
+  background-color: var(--main-red);
+  color: white;
+  border-radius: 5%;
 }
