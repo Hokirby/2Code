@@ -94,51 +94,54 @@
 
 <body>
   <div id="member-detail__main-header"></div>
-  <header class="memberinfo-header">
-    <h1 class="memberinfo-header__title">멤버 수정</h1>
-    <p class="memberinfo-header__text">
-      멤버 수정을 위해서는 아래 폼을 수정해주세요.
-    </p>
-  </header>
+  <div class="real-box">
+    <header class="memberinfo-header">
+      <h1 class="memberinfo-header__title">멤버 수정</h1>
+      <p class="memberinfo-header__text">
+        멤버 수정을 위해서는 아래 폼을 수정해주세요.
+      </p>
+    </header>
 
   <!-- 멤버 정보 입력 폼-->
-  <form class="memberinfo-form">
-    <div class="memberinfo-form__inputset">
-      <label for="memberinfo_name" class="memberinfo-form__label">이름</label>
-      <input type="text" class="memberinfo-form__input" id="memberinfo_name" placeholder="이름을 입력하세요" required />
-    </div>
+    <form class="memberinfo-form">
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_name" class="memberinfo-form__label">이름</label>
+        <input type="text" class="memberinfo-form__input" id="memberinfo_name" placeholder="이름을 입력하세요" required />
+      </div>
 
-    <div class="memberinfo-form__inputset">
-      <label for="memberinfo_age" class="memberinfo-form__label">나이</label>
-      <input type="text" class="memberinfo-form__input" id="memberinfo_age" placeholder="나이를 입력하세요" required />
-    </div>
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_age" class="memberinfo-form__label">나이</label>
+        <input type="text" class="memberinfo-form__input" id="memberinfo_age" placeholder="나이를 입력하세요" required />
+      </div>
 
-    <div class="memberinfo-form__inputset">
-      <label for="memberinfo_hobby" class="memberinfo-form__label">취미</label>
-      <input type="text" class="memberinfo-form__input" id="memberinfo_hobby" placeholder="취미를 입력하세요" required />
-    </div>
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_hobby" class="memberinfo-form__label">취미</label>
+        <input type="text" class="memberinfo-form__input" id="memberinfo_hobby" placeholder="취미를 입력하세요" required />
+      </div>
 
-    <div class="memberinfo-form__inputset">
-      <label for="memberinfo_blog" class="memberinfo-form__label">블로그</label>
-      <input type="url" class="memberinfo-form__input" id="memberinfo_blog" placeholder="개인 블로그 주소를 입력하세요" required />
-    </div>
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_blog" class="memberinfo-form__label">블로그</label>
+        <input type="url" class="memberinfo-form__input" id="memberinfo_blog" placeholder="개인 블로그 주소를 입력하세요" required />
+      </div>
 
-    <div class="memberinfo-form__inputset">
-      <label for="memberinfo_photo" class="memberinfo-form__label">개인사진</label>
-      <input type="url" class="memberinfo-form__input" id="memberinfo_photo" placeholder="이미지 주소를 입력하세요" required />
-    </div>
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_photo" class="memberinfo-form__label">개인사진</label>
+        <input type="url" class="memberinfo-form__input" id="memberinfo_photo" placeholder="이미지 주소를 입력하세요" required />
+      </div>
 
-    <div class="memberinfo-form__inputset">
-      <label for="memberinfo_resolution" class="memberinfo-form__label">나의 다짐</label>
-      <input type="text" class="memberinfo-form__input" id="memberinfo_resolution" placeholder="부트캠프에 임하는 나의 다짐을 입력하세요"
-        required />
-    </div>
-    <!-- 버튼 세트 -->
-    <div class="memberinfo-form__btns">
-      <input class="memberinfo-form__btn memberinfo-form__cancel-btn" id="before" type="button" value="이전" />
-      <input class="memberinfo-form__btn memberinfo-form__ok-btn" id="modify" type="button" value="멤버수정" />
-    </div>
-  </form>
+      <div class="memberinfo-form__inputset">
+        <label for="memberinfo_resolution" class="memberinfo-form__label">나의 다짐</label>
+        <input type="text" class="memberinfo-form__input" id="memberinfo_resolution"
+          placeholder="부트캠프에 임하는 나의 다짐을 입력하세요" required />
+      </div>
+      <!-- 버튼 세트 -->
+      <div class="memberinfo-form__btns">
+        <input class="memberinfo-form__btn memberinfo-form__cancel-btn" id="before" type="button" value="이전" />
+        <input class="memberinfo-form__btn memberinfo-form__ok-btn" id="modify" type="button" value="멤버수정" />
+      </div>
+    </form>
+  </div>
+
   <div id="member-detail__main-footer"></div>
 </body>
 
