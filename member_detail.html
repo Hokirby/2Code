@@ -30,12 +30,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // uid 추출
         const uid=window.location.search.substring(5);
 
         // 수정 uid 업데이트
         const link = document.querySelector('.member-detail__red-btn');
         link.href = `./member_modify.html?uid=${uid}`;
 
+        // firebase에서 uid로 정보 조회 후, 가져오기
         async function getUserByUID(uid) {
         const userRef = doc(db, "memberInfo", uid);
         const docSnap = await getDoc(userRef);
@@ -59,9 +61,11 @@
             console.log("데이터 없음!");
         }
         }
-    
 
+        // 함수실행
         getUserByUID(uid);
+
+        // header, footer 로드
         $(function(){
             $("#member-detail__main-header").load("header.html");
             $("#member-detail__main-footer").load("footer.html");
@@ -116,13 +120,8 @@
             </div>
             <div class="member-detail__button-box">
                 <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
-<<<<<<< HEAD
                 <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
                 <a class="member-detail__gray-btn" id = "member-detail__delete" href="javascript:;">삭제</a>
-=======
-                <a class="member-detail__red-btn" href="./member_modify.html?uid=">수정</a>
-                <a class="member-detail__gray-btn" id = "member-detail__delete"href="">삭제</a>
->>>>>>> 1d9b639847b460e5e40fb7e526929b3c5dc46d8b
             </div>
         </div>
 
