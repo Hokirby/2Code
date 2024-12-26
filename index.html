@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="css\reset.css" />
+  <!-- <link rel="stylesheet" href="css\reset.css" /> -->
   <link rel="stylesheet" href="css\styles.css" />
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,7 +16,6 @@
   <!-- 제이쿼리 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style></style>
-
   <script type="module">
     // Firebase SDK 라이브러리 가져오기
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -60,8 +59,8 @@
 
       let temp_html = `
       <div class="col">
-        <div class="card" data-id="${docid}">
-          <img src="${photo}">
+        <div class="card h-100" data-id="${docid}">
+          <img class="card-photo" src="${photo}">
           <div class="card-body">
             <h5 class="card-title">${name}</h5>
           </div>
@@ -69,19 +68,34 @@
       </div>`;
       $("#card").append(temp_html);
     });
+
+    // 메인 헤더 푸터 가져오기
+    $(function () {
+      $("#main-page__main-header").load("header.html");
+      $("#main-page__main-footer").load("footer.html");
+    });
   </script>
 </head>
 
 <body>
+  <!-- 메인 헤더 -->
+  <div id="main-page__main-header"></div>
   <!-- 팀 로고 -->
   <div class="main-page__logo-box" style="text-align: center">
-    <img class="main-page__logo" src="https://github.com/Hokirby/2Code/blob/main/img/teamIcon.png?raw=true" alt="팀 로고" />
+    <img class="main-page__logo" src="img/teamIcon.png" alt="팀 로고" />
+    <h1>2 Code</h1>
+    <p>2조(2), 코딩을 향한 열정(To), 팀워크(Together)의 의미를 가진 팀명입니다.</p>
   </div>
 
   <!-- 팀 소개 -->
   <div class="main-page__team-intro">
-    <h1>2Code</h1>
-    <p>안녕하세요. 반갑습니다.</p>
+    <img class="main-page__team-picture" src="img/teamImg.png" alt="팀 사진" />
+    <div class="main-page__team-goal">
+      <h1>팀의 목표</h1>
+      <p>취업!</p>
+      <h1>팀의 특징</h1>
+      <p></p>
+    </div>
   </div>
 
   <div class="main-page__member-intro">
@@ -93,6 +107,9 @@
     <!-- 멤버 카드 -->
     <div id="card" class="row row-cols-1 row-cols-md-5 g-4"></div>
   </div>
+
+  <!-- 메인 푸터 -->
+  <div id="main-page__main-footer"></div>
 </body>
 
 </html>

@@ -8,7 +8,7 @@
 /*  └ 공통으로 사용할 변수 */
 @import "variables.css";
 /*  └ 디폴트 CSS 제거 */
-@import "reset.css";
+/* @import "reset.css"; */
 
 /* 디렉토리: Components : 페이지 구분없이 재활용되는 파츠 */
 @import "components/memberinfo-form.css";
@@ -49,6 +49,12 @@ body {
   font-variation-settings: "wdth" 100;
 }
 
+.real-box {
+  margin: 150px auto 50px;
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 50px;
+}
 /* .gaegu-regular {
   font-family: "Gaegu", serif;
   font-weight: 400;
