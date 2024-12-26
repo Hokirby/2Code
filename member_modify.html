@@ -1,189 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="css\reset.css" />
-    <link rel="stylesheet" href="css\styles.css" />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>팀2CODE</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="module">
-      // Firebase SDK 라이브러리 가져오기
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import {
-        collection,
-        addDoc,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import {
-        getDocs,
-        doc,
-        getDoc,
-        updateDoc,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-      // Firebase 구성 정보 설정
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
-        authDomain: "teampage-2code.firebaseapp.com",
-        projectId: "teampage-2code",
-        storageBucket: "teampage-2code.firebasestorage.app",
-        messagingSenderId: "495445103559",
-        appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
+<head>
+  <link rel="stylesheet" href="css\reset.css" />
+  <link rel="stylesheet" href="css\styles.css" />
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>팀2CODE</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="module">
+    // Firebase SDK 라이브러리 가져오기
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import {
+      collection,
+      addDoc,
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import {
+      getDocs,
+      doc,
+      getDoc,
+      updateDoc,
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Firebase 구성 정보 설정
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
+      authDomain: "teampage-2code.firebaseapp.com",
+      projectId: "teampage-2code",
+      storageBucket: "teampage-2code.firebasestorage.app",
+      messagingSenderId: "495445103559",
+      appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
+    };
+
+    // Firebase 인스턴스 초기화
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    console.log(window.location.search);
+    const uid = window.location.search.substring(5);
+    console.log(uid);
+
+    $(function () {
+      $("#member-detail__main-header").load("header.html");
+      $("#member-detail__main-footer").load("footer.html");
+    });
+
+    const userRef = doc(db, "memberInfo", uid);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) {
+      $("#memberinfo_name").val(docSnap.data().name);
+      $("#memberinfo_age").val(docSnap.data().age);
+      $("#memberinfo_hobby").val(docSnap.data().hobby);
+      $("#memberinfo_blog").val(docSnap.data().blog);
+      $("#memberinfo_photo").val(docSnap.data().photo);
+      $("#memberinfo_resolution").val(docSnap.data().resolution);
+    }
+
+    $("#modify").click(async function () {
+      let name = $("#memberinfo_name").val();
+      let age = $("#memberinfo_age").val();
+      let hobby = $("#memberinfo_hobby").val();
+      let blog = $("#memberinfo_blog").val();
+      let photo = $("#memberinfo_photo").val();
+      let resolution = $("#memberinfo_resolution").val();
+      let doc = {
+        name: name,
+        age: age,
+        hobby: hobby,
+        blog: blog,
+        photo: photo,
+        resolution: resolution,
       };
-
-      // Firebase 인스턴스 초기화
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      console.log(window.location.search);
-      const uid = window.location.search.substring(5);
-      console.log(uid);
-
-      const userRef = doc(db, "memberInfo", uid);
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        $("#memberinfo_name").val(docSnap.data().name);
-        $("#memberinfo_age").val(docSnap.data().age);
-        $("#memberinfo_hobby").val(docSnap.data().hobby);
-        $("#memberinfo_blog").val(docSnap.data().blog);
-        $("#memberinfo_photo").val(docSnap.data().photo);
-        $("#memberinfo_resolution").val(docSnap.data().resolution);
+      try {
+        console.log(doc);
+        await updateDoc(userRef, doc);
+      } catch (error) {
+        console.error(error);
+        alert("수정 실패!");
       }
+      window.location.href = `member_detail.html?uid=${uid}`;
+    });
 
-      $("#modify").click(async function () {
-        let name = $("#memberinfo_name").val();
-        let age = $("#memberinfo_age").val();
-        let hobby = $("#memberinfo_hobby").val();
-        let blog = $("#memberinfo_blog").val();
-        let photo = $("#memberinfo_photo").val();
-        let resolution = $("#memberinfo_resolution").val();
-        let doc = {
-          name: name,
-          age: age,
-          hobby: hobby,
-          blog: blog,
-          photo: photo,
-          resolution: resolution,
-        };
-        try {
-          console.log(doc);
-          await updateDoc(userRef, doc);
-        } catch (error) {
-          console.error(error);
-          alert("수정 실패!");
-        }
-        window.location.href = `member_detail.html?uid=${uid}`;
-      });
+    $("#before").click(async function () {
+      window.location.href = `member_detail.html?uid=${uid}`;
+    });
+  </script>
+  <style></style>
+</head>
 
-      $("#before").click(async function () {
-        window.location.href = `member_detail.html?uid=${uid}`;
-      });
-    </script>
-    <style></style>
-  </head>
+<body>
+  <div id="member-detail__main-header"></div>
+  <header class="memberinfo-header">
+    <h1 class="memberinfo-header__title">멤버 수정</h1>
+    <p class="memberinfo-header__text">
+      멤버 수정을 위해서는 아래 폼을 수정해주세요.
+    </p>
+  </header>
 
-  <body>
-    <header class="memberinfo-header">
-      <h1 class="memberinfo-header__title">멤버 수정</h1>
-      <p class="memberinfo-header__text">
-        멤버 수정을 위해서는 아래 폼을 수정해주세요.
-      </p>
-    </header>
+  <!-- 멤버 정보 입력 폼-->
+  <form class="memberinfo-form">
+    <div class="memberinfo-form__inputset">
+      <label for="memberinfo_name" class="memberinfo-form__label">이름</label>
+      <input type="text" class="memberinfo-form__input" id="memberinfo_name" placeholder="이름을 입력하세요" required />
+    </div>
 
-    <!-- 멤버 정보 입력 폼-->
-    <form class="memberinfo-form">
-      <div class="memberinfo-form__inputset">
-        <label for="memberinfo_name" class="memberinfo-form__label">이름</label>
-        <input
-          type="text"
-          class="memberinfo-form__input"
-          id="memberinfo_name"
-          placeholder="이름을 입력하세요"
-          required
-        />
-      </div>
+    <div class="memberinfo-form__inputset">
+      <label for="memberinfo_age" class="memberinfo-form__label">나이</label>
+      <input type="text" class="memberinfo-form__input" id="memberinfo_age" placeholder="나이를 입력하세요" required />
+    </div>
 
-      <div class="memberinfo-form__inputset">
-        <label for="memberinfo_age" class="memberinfo-form__label">나이</label>
-        <input
-          type="text"
-          class="memberinfo-form__input"
-          id="memberinfo_age"
-          placeholder="나이를 입력하세요"
-          required
-        />
-      </div>
+    <div class="memberinfo-form__inputset">
+      <label for="memberinfo_hobby" class="memberinfo-form__label">취미</label>
+      <input type="text" class="memberinfo-form__input" id="memberinfo_hobby" placeholder="취미를 입력하세요" required />
+    </div>
 
-      <div class="memberinfo-form__inputset">
-        <label for="memberinfo_hobby" class="memberinfo-form__label"
-          >취미</label
-        >
-        <input
-          type="text"
-          class="memberinfo-form__input"
-          id="memberinfo_hobby"
-          placeholder="취미를 입력하세요"
-          required
-        />
-      </div>
+    <div class="memberinfo-form__inputset">
+      <label for="memberinfo_blog" class="memberinfo-form__label">블로그</label>
+      <input type="url" class="memberinfo-form__input" id="memberinfo_blog" placeholder="개인 블로그 주소를 입력하세요" required />
+    </div>
 
-      <div class="memberinfo-form__inputset">
-        <label for="memberinfo_blog" class="memberinfo-form__label"
-          >블로그</label
-        >
-        <input
-          type="url"
-          class="memberinfo-form__input"
-          id="memberinfo_blog"
-          placeholder="개인 블로그 주소를 입력하세요"
-          required
-        />
-      </div>
+    <div class="memberinfo-form__inputset">
+      <label for="memberinfo_photo" class="memberinfo-form__label">개인사진</label>
+      <input type="url" class="memberinfo-form__input" id="memberinfo_photo" placeholder="이미지 주소를 입력하세요" required />
+    </div>
 
-      <div class="memberinfo-form__inputset">
-        <label for="memberinfo_photo" class="memberinfo-form__label"
-          >개인사진</label
-        >
-        <input
-          type="url"
-          class="memberinfo-form__input"
-          id="memberinfo_photo"
-          placeholder="이미지 주소를 입력하세요"
-          required
-        />
-      </div>
+    <div class="memberinfo-form__inputset">
+      <label for="memberinfo_resolution" class="memberinfo-form__label">나의 다짐</label>
+      <input type="text" class="memberinfo-form__input" id="memberinfo_resolution" placeholder="부트캠프에 임하는 나의 다짐을 입력하세요"
+        required />
+    </div>
+    <!-- 버튼 세트 -->
+    <div class="memberinfo-form__btns">
+      <input class="memberinfo-form__btn memberinfo-form__cancel-btn" id="before" type="button" value="이전" />
+      <input class="memberinfo-form__btn memberinfo-form__ok-btn" id="modify" type="button" value="멤버수정" />
+    </div>
+  </form>
+  <div id="member-detail__main-footer"></div>
+</body>
 
-      <div class="memberinfo-form__inputset">
-        <label for="memberinfo_resolution" class="memberinfo-form__label"
-          >나의 다짐</label
-        >
-        <input
-          type="text"
-          class="memberinfo-form__input"
-          id="memberinfo_resolution"
-          placeholder="부트캠프에 임하는 나의 다짐을 입력하세요"
-          required
-        />
-      </div>
-      <!-- 버튼 세트 -->
-      <div class="memberinfo-form__btns">
-        <input
-          class="memberinfo-form__btn memberinfo-form__cancel-btn"
-          id="before"
-          type="button"
-          value="이전"
-        />
-        <input
-          class="memberinfo-form__btn memberinfo-form__ok-btn"
-          id="modify"
-          type="button"
-          value="멤버수정"
-        />
-      </div>
-    </form>
-  </body>
 </html>
