@@ -199,8 +199,7 @@
         //방명록 글 수정
         $(document).on('click', '#comment-fix-btn', async function () {
             commentUid = $(this).attr('data-id');
-            console.log(commentUid);
-            const password = prompt("****");
+            const password = prompt("비밀번호 4자리를 입력해주세요");
 
             //getDoc으로 해당하는 comment 가져오기
             commentRef = doc(db, "comment", commentUid);
