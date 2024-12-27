@@ -13,7 +13,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs, doc, getDoc, deleteDoc, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, doc, getDoc, deleteDoc, updateDoc, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         // 추가로 임포트해야할 라이브러리: NoSQL 쿼리 사용
         import { query, where, orderBy, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
@@ -99,7 +99,7 @@
                         <div class="comment-id">${commenterId}</div>
                         <div class="comment-word">${content}</div>
                         <div class="comment-btn-box">
-                            <a class="comment-fix-btn data-id=${commentId}">수정</a>
+                            <a class="comment-fix-btn" id="comment-fix-btn" data-id="${commentId}">수정</a>
                             <a class="comment-del-btn" id="comment-del-btn" data-id=${commentId}>삭제</a>
                             </div>
                             <div class="comment-date">${lastDate}</div>
@@ -185,6 +185,76 @@
                 alert("잘못된 비밀번호입니다.");
                 window.location.href = `member_detail.html?uid=${memberUid}`;
             }
+        });
+
+        const commentDoc = {
+            password: "",
+            comment: "",
+            date: "",
+        };
+
+        let commentUid = "";
+        let commentRef = "";
+
+        //방명록 글 수정
+        $(document).on('click', '#comment-fix-btn', async function () {
+            commentUid = $(this).attr('data-id');
+            console.log(commentUid);
+            const password = prompt("****");
+
+            //getDoc으로 해당하는 comment 가져오기
+            commentRef = doc(db, "comment", commentUid);
+            const docSnap = await getDoc(commentRef);
+
+            if (docSnap.exists()) {
+                //비밀번호 비교 후 맞으면 input type="text"로 변경해서 comment 입력 가능하게 하기
+                if (password == docSnap.data().password) {
+                    commentDoc.password = docSnap.data().password;
+                    commentDoc.comment = docSnap.data().comment;
+                    commentDoc.date = docSnap.data().date;
+
+                    console.log(commentDoc);
+
+                    //수정 버튼을 클릭한 댓글을 가져오기
+                    let commentWordDiv = $(this).closest('.comment').find('.comment-word');
+                    const currentContent = commentWordDiv.text();
+
+                    console.log(currentContent);
+                    //댓글 tag 타입을 input으로 바꿔 입력 가능하게 하기
+                    commentWordDiv.replaceWith(`<input type="text" class="comment-word" id="${commentUid}-modified" value="${currentContent}">`);
+                    //수정 버튼의 아이디를 수정하여 삭제버튼 이벤트와 겹치지 않게 하기
+                    $(this).attr('id', 'fix-btn=' + commentUid);
+                } else {
+                    console.error("비밀번호: " + password + "이/가 틀렸습니다.");
+                }
+            }
+        });
+
+        $(document).on('click', `[id^="fix-btn="]`, async function () {
+            //현재 입력한 텍스트 가져오기
+            const currentContent = $(`#${commentUid}-modified`).val();
+            console.log(currentContent);
+            //댓글 업데이트 하기
+            let doc = {
+                password: commentDoc.password,
+                comment: currentContent,
+                date: new Date(),
+            };
+            try {
+                await updateDoc(commentRef, doc);
+                //html tag 원상복귀
+                const commentWordDiv = $(this).closest('.comment').find('.comment-word');
+                commentWordDiv.replaceWith(`<div class="comment-word">${currentContent}</div>`);
+            } catch (error) {
+                console.log(error);
+            }
+            //commentDoc 초기화
+            commentDoc.password = "";
+            commentDoc.comment = "";
+            commentDoc.date = "";
+            commentUid = "";
+            //수정 완료 후 id값을 원상복귀 시켜 수정이벤트 가능하게 하기
+            $(this).attr('id', 'comment-fix-btn');
         });
     </script>
 </head>
