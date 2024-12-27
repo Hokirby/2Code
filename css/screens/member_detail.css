@@ -178,10 +178,15 @@
     height: 20px;
     background-color: var(--main-red);
     color: white;
+    text-decoration: none !important;
     border-radius: 10%;
     padding: 5px;
     cursor: pointer;
     font-size: 14px;
+}
+.comment-fix-btn:hover{
+  color: white;
+  text-decoration: none !important;
 }
 .comment-del-btn{
   display: flex;
@@ -191,11 +196,16 @@
   height: 20px;
   background-color: #666666;
   color: white;
+  text-decoration: none !important;
   border-radius: 10%;
   padding: 5px;
   cursor: pointer;
   margin-left: 5px;
   font-size: 14px;
+}
+.comment-del-btn:hover{
+  color: white;
+  text-decoration: none !important;
 }
 .comment-date{
   width: 10%;
