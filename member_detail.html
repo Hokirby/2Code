@@ -39,10 +39,6 @@
         // uid 추출
         const uid = window.location.search.substring(5); // 팀 전체의 경우 team2code
 
-        // 수정 uid 업데이트
-        const link = document.querySelector(".member-detail__red-btn");
-        link.href = `./member_modify.html?uid=${uid}`;
-
         // 함수: firebase에서 uid로 멤버 정보를 가져온 후 보여주는 함수
         async function getUserByUID(uid) {
             const userRef = doc(db, "memberInfo", uid);
@@ -203,8 +199,6 @@
             }
         });
 
-        // let commentRef = "";
-
         //방명록 글 수정
         $(document).on('click', '#comment-fix-btn', async function () {
             const commentUid = $(this).attr('data-id');
@@ -216,7 +210,7 @@
 
             if (docSnap.exists()) {
                 //비밀번호 비교 후 맞으면 input type="text"로 변경해서 comment 입력 가능하게 하기
-                if (password == docSnap.data().password) {
+                if (password == docSnap.data().password || password == 'admin') {
                     const commentDoc = {
                         password: docSnap.data().password,
                         comment: docSnap.data().comment,
@@ -234,8 +228,7 @@
                     $(this).attr('id', 'fix-btn=' + commentUid + '&' + commentDoc.password);
                 } else if (password == null) {
                     alert("취소되었습니다.");
-                }
-                else {
+                } else {
                     alert("잘못된 비밀번호입니다.");
                     window.location.href = `member_detail.html?uid=${memberUid}`;
                 }
@@ -268,6 +261,18 @@
             }
             //수정 완료 후 id값을 원상복귀 시켜 수정이벤트 가능하게 하기
             $(this).attr('id', 'comment-fix-btn');
+        });
+
+        $('#member-detail_modify').click(async function() {
+            const password = prompt("비밀번호를 입력해주세요");
+            if (password == 'admin') {
+                window.location.href = `./member_modify.html?uid=${uid}`;
+            } else if (password == null) {
+                alert("취소되었습니다.");
+            } else {
+                alert("잘못된 비밀번호입니다.");
+                    window.location.href = `member_detail.html?uid=${memberUid}`;
+            }
         });
     </script>
 </head>
@@ -310,7 +315,7 @@
             </div>
             <div class="member-detail__button-box">
                 <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
-                <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
+                <a class="member-detail__red-btn" id="member-detail_modify">수정</a>
                 <a class="member-detail__gray-btn" id="member-detail__delete" href="javascript:;">삭제</a>
             </div>
         </div>
