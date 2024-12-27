@@ -32,6 +32,7 @@
   margin-left: 5px;
   display: inline-block;
   border-radius: 5px;
+  padding: 15px;
 }
 
 .main-page__member-intro {
@@ -39,7 +40,7 @@
   text-align: center;
   margin: auto;
   margin-top: 10px;
-  border: solid black;
+  /* border: 2px solid black; */
   border-radius: 5px;
   padding: 5px;
 }
@@ -59,11 +60,18 @@
 
 .card-photo {
   height: 250px;
-  border: solid black;
+  border: 1px solid #eee;
   border-radius: 3px;
 }
 
 .card-body {
-  border: solid black;
+  border: 1px solid #eee;
   border-radius: 3px;
+}
+.logo-text{
+  font-size: 25px;
+}
+.team-text{
+  font-size: 28px;
+  margin-bottom: 40px;
 }
