@@ -39,7 +39,7 @@
 
     // 멤버 등록 버튼 클릭시 등록페이지로 이동
     $(document).on("click", ".main-page__saveBtn", function () {
-      const password = prompt("비밀번호 4자리를 입력해주세요");
+      const password = prompt("비밀번호를 입력하세요");
       if (password == 'admin') {
 
         location.href = "member_add.html";
@@ -100,12 +100,12 @@
     <!-- 팀 소개 -->
     <div class="main-page__team-intro">
       <img class="main-page__team-picture" src="img/teamImg.png" alt="팀 사진" />
-      <div class="main-page__team-goal">
+      <!-- <div class="main-page__team-goal">
         <h1>팀의 목표</h1>
         <p>취업!</p>
         <h1>팀의 특징</h1>
         <p></p>
-      </div>
+      </div> -->
     </div>
 
     <div class="main-page__member-intro">
