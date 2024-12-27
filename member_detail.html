@@ -21,7 +21,14 @@
         getDoc,
         deleteDoc,
       } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      
+       // 추가로 임포트해야할 라이브러리: NoSQL 쿼리 사용
+			 import {
+    query,
+    where,
+    orderBy,
+  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
       // Firebase 구성 정보 설정
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
       const firebaseConfig = {
@@ -79,6 +86,7 @@
           orderBy("date")
         );
         // 쿼리사용해서 DB인출
+				console.log("시작");
         const comments = await getDocs(q);
         let tempComment_html; // 코멘트 당 붙일 html
         if (comments.empty) {
