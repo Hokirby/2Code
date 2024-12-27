@@ -21,13 +21,12 @@
         getDoc,
         deleteDoc,
       } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-       // 추가로 임포트해야할 라이브러리: NoSQL 쿼리 사용
-			 import {
-    query,
-    where,
-    orderBy,
-  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
+      // 추가로 임포트해야할 라이브러리: NoSQL 쿼리 사용
+      import {
+        query,
+        where,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
       // Firebase 구성 정보 설정
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -86,7 +85,7 @@
           orderBy("date")
         );
         // 쿼리사용해서 DB인출
-				console.log("시작");
+        console.log("시작");
         const comments = await getDocs(q);
         let tempComment_html; // 코멘트 당 붙일 html
         if (comments.empty) {
@@ -185,18 +184,17 @@
           <div class="member-detail__image-box" id="image-box"></div>
           <div class="member-detail__detail-box">
             <div class="member-detail__detail-box-box">
-              <!-- 12/26 ISSUE : span 닫는 태그가 없음/해결 확인하시면 주석 지워주셔요 -->
               <div class="member-detail__text-box">
-                <span>이름 : <span id="name"></span>
+                <span>이름 : </span><span id="name"></span>
               </div>
               <div class="member-detail__text-box">
-                <span>나이 : <span id="age"></span>
+                <span>나이 : </span><span id="age"></span>
               </div>
               <div class="member-detail__text-box">
-                <span>취미 : <span id="hobby"></span>
+                <span>취미 : </span><span id="hobby"></span>
               </div>
               <div class="member-detail__text-box">
-                <span>블로그 : <span id="blog"></span>
+                <span>블로그 : </span><span id="blog"></span>
               </div>
             </div>
             <div class="member-detail__resolution-box">
