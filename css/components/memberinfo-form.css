@@ -12,7 +12,7 @@
 
 .memberinfo-header__text {
   font-size: 20px;
-  opacity: 0.6;
+  color: gray;
 }
 
 .memberinfo-form {
