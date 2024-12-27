@@ -122,7 +122,10 @@
 
         // 멤버 삭제
         $("#member-detail__delete").click(async function () {
-            if (confirm("정말 삭제하시겠습니까?")) {
+            const password = prompt("비밀번호 4자리를 입력해주세요");
+
+            if (password == 'admin') {
+                if (confirm("정말 삭제하시겠습니까?")) {
                 // 멤버 삭제
                 await deleteDoc(doc(db, "memberInfo", uid));
                 // 해당 멤버의 댓글 삭제
@@ -138,8 +141,17 @@
                 window.location.href = "index.html";
             } else {
                 alert("취소되었습니다");
-                window.location.reload();
             }
+                window.location.href = `member_detail.html?uid=${memberUid}`;
+            } else if (password == null) {
+                alert("취소되었습니다.")
+            } else {
+                alert("잘못된 비밀번호입니다.");
+                window.location.href = `member_detail.html?uid=${memberUid}`;
+            }
+
+            
+
         });
 
         //방명록 글 등록
