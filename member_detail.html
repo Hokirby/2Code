@@ -165,10 +165,9 @@
 
         // 댓글 삭제
         $("#comment-list").on("click",".comment-del-btn",async function () {
-            console.log("테스트");
             const docid = $(this).attr("data-id");
             console.log(docid);
-            const password = prompt("****");
+            const password = prompt("비밀번호 4자리를 입력해주세요");
             // db에서 
             const cmtDoc = doc(db, "comment", docid);
             const cmtSnap = await getDoc(cmtDoc);
@@ -180,7 +179,9 @@
                 await deleteDoc(doc(db, "comment", docid));
                 alert("댓글이 삭제되었습니다")
                 window.location.href = `member_detail.html?uid=${memberUid}`;
-            } else {
+            } else if(password == null) {
+                alert("취소되었습니다.")
+            }else {
                 alert("비밀번호가 틀립니다.");
                 window.location.href = `member_detail.html?uid=${memberUid}`;
             }
