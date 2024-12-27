@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <link rel="stylesheet" href="css\reset.css" />
-  <link rel="stylesheet" href="css\styles.css" />
+    <link rel="stylesheet" href="css\reset.css" />
+    <link rel="stylesheet" href="css\styles.css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -14,16 +15,16 @@
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    
+
         // Firebase 구성 정보 설정
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-        apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
-        authDomain: "teampage-2code.firebaseapp.com",
-        projectId: "teampage-2code",
-        storageBucket: "teampage-2code.firebasestorage.app",
-        messagingSenderId: "495445103559",
-        appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
+            apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
+            authDomain: "teampage-2code.firebaseapp.com",
+            projectId: "teampage-2code",
+            storageBucket: "teampage-2code.firebasestorage.app",
+            messagingSenderId: "495445103559",
+            appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
         };
 
         // Firebase 인스턴스 초기화
@@ -31,7 +32,7 @@
         const db = getFirestore(app);
 
         // uid 추출
-        const uid=window.location.search.substring(5);
+        const uid = window.location.search.substring(5);
 
         // 수정 uid 업데이트
         const link = document.querySelector('.member-detail__red-btn');
@@ -39,53 +40,53 @@
 
         // firebase에서 uid로 정보 조회 후, 가져오기
         async function getUserByUID(uid) {
-        const userRef = doc(db, "memberInfo", uid);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-            
-            let name = docSnap.data().name;
-            let age = docSnap.data().age;
-            let hobby = docSnap.data().hobby;
-            let blog = docSnap.data().blog;
-            let resolution = docSnap.data().resolution;
-            let image = docSnap.data().photo;
+            const userRef = doc(db, "memberInfo", uid);
+            const docSnap = await getDoc(userRef);
+            if (docSnap.exists()) {
 
-            let temp_image_html=`<img class="image" src="${image}">`;
-            $('#name').append(name);
-            $('#age').append(age);
-            $('#hobby').append(hobby);
-            $('#blog').append(blog);
-            $('#resolution').append(resolution);
-            $('#image-box').append(temp_image_html);
-        } else {
-            console.log("데이터 없음!");
-        }
+                let name = docSnap.data().name;
+                let age = docSnap.data().age;
+                let hobby = docSnap.data().hobby;
+                let blog = docSnap.data().blog;
+                let resolution = docSnap.data().resolution;
+                let image = docSnap.data().photo;
+
+                let temp_image_html = `<img class="image" src="${image}">`;
+                $('#name').append(name);
+                $('#age').append(age);
+                $('#hobby').append(hobby);
+                $('#blog').append(blog);
+                $('#resolution').append(resolution);
+                $('#image-box').append(temp_image_html);
+            } else {
+                console.log("데이터 없음!");
+            }
         }
 
         // 함수실행
         getUserByUID(uid);
 
         // header, footer 로드
-        $(function(){
+        $(function () {
             $("#member-detail__main-header").load("header.html");
             $("#member-detail__main-footer").load("footer.html");
         });
 
         // 멤버 삭제
         $("#member-detail__delete").click(async function () {
-            if (confirm('정말 삭제하시겠습니까?')){
-                
+            if (confirm('정말 삭제하시겠습니까?')) {
+
                 await deleteDoc(doc(db, "memberInfo", uid));
                 alert('삭제 완료!');
-                window.location.href="index.html";
+                window.location.href = "index.html";
             } else {
                 alert('취소되었습니다');
                 window.location.reload();
             }
         });
 
-        //방명록 글 등록
-        $('#add-comment').click(async function() {
+        //댓글 등록
+        $('#add-comment').click(async function () {
             let id = $('#id').val();
             let password = $('#password').val();
             let content = $('#content').val();
@@ -109,11 +110,40 @@
             window.location.href = `member_detail.html?uid=${uid}`;
         });
 
+        // 댓글 삭제
+        $("#comment-del-btn").click(async function () {
+            // 상위요소의 uid가 있는 data-id를 가져옴
+            const docid = $(this).closest("li").attr("data-id");
+            const password = prompt("****");
+            // db에서 
+            const cmtDoc = doc(db, "comment", docid);
+            const cmtSnap = await getDoc(cmtDoc);
+
+            // 멤버정보의 uid
+            const memberUid= cmtSnap.data().memberUid;
+            
+            if(password==cmtSnap.data().password){
+                await deleteDoc(doc(db, "comment", docid));
+                alert("댓글이 삭제되었습니다")
+                window.location.href = `member_detail.html?uid=${memberUid}`;
+            } else{
+                alert("비밀번호가 틀립니다.");
+                window.location.href = `member_detail.html?uid=${memberUid}`;
+            }
+
+            console.log(cmtSnap.data().comment);
+            console.log(cmtSnap.data().date);
+            console.log(cmtSnap.data().id);
+            console.log(cmtSnap.data().memberUid);
+            console.log(cmtSnap.data().password);
+
+        });
     </script>
 </head>
+
 <body class="member-detail__body">
     <!-- 메인 헤더 -->
-    <div id = "member-detail__main-header"></div>
+    <div id="member-detail__main-header"></div>
     <!-- 전체 컨테이너 -->
     <div class="member-detail__container">
         <!-- 메인 컨테이너 -->
@@ -124,7 +154,7 @@
             <!-- 메인 컨텐츠 -->
             <div class="member-detail__detail">
                 <div class="member-detail__image-box" id="image-box">
-                    
+
                 </div>
                 <div class="member-detail__detail-box">
                     <div class="member-detail__detail-box-box">
@@ -144,19 +174,19 @@
             <div class="member-detail__button-box">
                 <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
                 <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
-                <a class="member-detail__gray-btn" id = "member-detail__delete" href="javascript:;">삭제</a>
-            </div>  
+                <a class="member-detail__gray-btn" id="member-detail__delete" href="javascript:;">삭제</a>
+            </div>
         </div>
         <div class="comment-box">
             <div class="comment-text">댓글</div>
             <ul class="comment-list">
 
-                <li class="comment">
+                <li class="comment" data-id="nALprDh40bFkAPhsNGkC">
                     <div class="comment-id">지갑</div>
                     <div class="comment-word">5만원5만원5만원5만원5만원5만원5만원5만원5만원5만원</div>
                     <div class="comment-btn-box">
                         <a class="comment-fix-btn">수정</a>
-                        <a class="comment-del-btn">삭제</a>
+                        <a class="comment-del-btn" id="comment-del-btn">삭제</a>
                     </div>
                     <div class="comment-date">2024-12-26</div>
                 </li>
@@ -271,7 +301,7 @@
                     <div class="comment-date">2024-12-26</div>
                 </li>
 
-                
+
             </ul>
 
             <div class="input-comment-box">
@@ -290,8 +320,8 @@
             </div>
         </div>
     </div>
-        <!-- 메인 푸터 -->
-        <div id = "member-detail__main-footer"></div>
+    <!-- 메인 푸터 -->
+    <div id="member-detail__main-footer"></div>
 </body>
 
 </html>
