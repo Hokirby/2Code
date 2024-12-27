@@ -100,7 +100,7 @@
                         <div class="comment-word">${content}</div>
                         <div class="comment-btn-box">
                             <a class="comment-fix-btn data-id=${commentId}">수정</a>
-                            <a class="comment-del-btn id="comment-del-btn" data-id=${commentId}">삭제</a>
+                            <a class="comment-del-btn" id="comment-del-btn" data-id=${commentId}>삭제</a>
                             </div>
                             <div class="comment-date">${lastDate}</div>
                             </li>`;
@@ -164,7 +164,8 @@
         });
 
         // 댓글 삭제
-        $("#comment-del-btn").click(async function () {
+        $("#comment-list").on("click",".comment-del-btn",async function () {
+            console.log("테스트");
             const docid = $(this).attr("data-id");
             console.log(docid);
             const password = prompt("****");
