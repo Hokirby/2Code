@@ -1,7 +1,10 @@
-.main-page__logo-box,
-.main-page__logo {
-  margin-top: 70px;
-  border-radius: 10px;
+.main-page__body {
+  height: 1200px;
+}
+
+.main-page__logo-box {
+  margin-top: 120px;
+  margin-bottom: 5px;
 }
 
 .main-page__team-intro {
@@ -17,7 +20,6 @@
   margin: auto;
   float: left;
   vertical-align: text-top;
-  display: inline-block;
 }
 
 .main-page__team-goal {
@@ -33,19 +35,25 @@
 
 .main-page__member-intro {
   width: 1100px;
-  height: 500px;
   text-align: center;
   margin: auto;
   margin-top: 10px;
   border: solid black;
   border-radius: 5px;
   padding: 5px;
-
 }
 
 .main-page__saveBtn {
   text-align: right;
   margin-bottom: 5px;
+}
+
+#saveBtn {
+  cursor: pointer;
+}
+
+#cards {
+  cursor: pointer;
 }
 
 .card-photo {
