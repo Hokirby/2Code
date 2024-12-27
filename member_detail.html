@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <link rel="stylesheet" href="css\reset.css" />
     <link rel="stylesheet" href="css\styles.css" />
     <meta charset="UTF-8" />
@@ -8,294 +9,259 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>등록 페이지</title>
     <script type="module">
-      // Firebase SDK 라이브러리 가져오기
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import {
-        collection,
-        addDoc,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      import {
-        getDocs,
-        doc,
-        getDoc,
-        deleteDoc,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-      // 추가로 임포트해야할 라이브러리: NoSQL 쿼리 사용
-      import {
-        query,
-        where,
-        orderBy,
-      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, doc, getDoc, deleteDoc, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        // 추가로 임포트해야할 라이브러리: NoSQL 쿼리 사용
+        import { query, where, orderBy, } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-      // Firebase 구성 정보 설정
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
-        authDomain: "teampage-2code.firebaseapp.com",
-        projectId: "teampage-2code",
-        storageBucket: "teampage-2code.firebasestorage.app",
-        messagingSenderId: "495445103559",
-        appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
-      };
-
-      // Firebase 인스턴스 초기화
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      // uid 추출
-      const uid = window.location.search.substring(5); // 팀 전체의 경우 team2code
-
-      // 수정 uid 업데이트
-      const link = document.querySelector(".member-detail__red-btn");
-      link.href = `./member_modify.html?uid=${uid}`;
-
-      // 함수: firebase에서 uid로 멤버 정보를 가져온 후 보여주는 함수
-      async function getUserByUID(uid) {
-        const userRef = doc(db, "memberInfo", uid);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          let name = docSnap.data().name;
-          let age = docSnap.data().age;
-          let hobby = docSnap.data().hobby;
-          let blog = docSnap.data().blog;
-          let resolution = docSnap.data().resolution;
-          let image = docSnap.data().photo;
-
-          let temp_image_html = `<img class="image" src="${image}">`;
-          $("#name").append(name);
-          $("#age").append(age);
-          $("#hobby").append(hobby);
-          $("#blog").append(blog);
-          $("#resolution").append(resolution);
-          $("#image-box").append(temp_image_html);
-        } else {
-          console.log("데이터 없음!");
-        }
-      }
-      // 멤버정보 조회한 후 보여주는 위 함수실행
-      getUserByUID(uid);
-
-      // gestbook read&show --------------
-      async function getCommentByUID(uid) {
-        // 쿼리설정 : 방명록 중 특정 UID에 해당하는 코멘트만 날짜 내림차순으로
-        const q = query(
-          collection(db, "comment"),
-          where("memberUid", "==", uid), // 팀 전체의 경우 team2code 로 읽으면 됨
-          orderBy("date")
-        );
-        // 쿼리사용해서 DB인출
-        const comments = await getDocs(q);
-        let tempComment_html;
-        if (comments.empty) {
-          tempComment_html = `<li class="comment">
-            <div class="non-comment" style="margin: 0px auto">코멘트가 없습니다</div></li>`;
-          $("#comment-list").append(tempComment_html);
-        } else
-          comments.forEach((comment) => {
-            // 코멘트 하나씩 row에 할당하고
-            let row = comment.data();
-            let commentId = comment.id;
-            // row의 정보들을 각각 컬럼별로 쪼개서 변수에 할당
-            let content = row["comment"];
-            let lastDate = row["date"].toDate();
-            let year = lastDate.getFullYear();
-            let month = ("0" + (lastDate.getMonth() + 1)).slice(-2);
-            let days = ("0" + lastDate.getDate()).slice(-2);
-            lastDate = year + "-" + month + "-" + days;
-            let commenterId = row["id"];
-
-            tempComment_html = `<li class="comment">
-                  <div class="comment-id">${commenterId}</div>
-                  <div class="comment-word">${content}</div>
-                  <div class="comment-btn-box">
-                    <a class="comment-fix-btn data-id=${commentId}">수정</a>
-                    <a class="comment-del-btn data-id=${commentId}">삭제</a>
-                  </div>
-                  <div class="comment-date">${lastDate}</div>
-                </li>`;
-            $("#comment-list").append(tempComment_html);
-          });
-      }
-      getCommentByUID(uid);
-
-      // header, footer 로드
-      $(function () {
-        $("#member-detail__main-header").load("header.html");
-        $("#member-detail__main-footer").load("footer.html");
-      });
-
-      // 멤버 삭제
-      $("#member-detail__delete").click(async function () {
-        if (confirm("정말 삭제하시겠습니까?")) {
-          // 멤버 삭제
-          await deleteDoc(doc(db, "memberInfo", uid));
-          // 해당 멤버의 댓글 삭제
-          const commentRef = collection(db, "comment");
-          const q = query(commentRef, where("memberUid", "==", uid));
-
-          const querySnapshot = await getDocs(q); // 쿼리 결과 가져오기
-
-          querySnapshot.forEach(async (doc) => {
-            await deleteDoc(doc.ref); // 조건에 맞는 댓글 삭제
-          });
-          alert("삭제 완료!");
-          window.location.href = "index.html";
-        } else {
-          alert("취소되었습니다");
-          window.location.reload();
-        }
-      });
-
-      //방명록 글 등록
-      $("#add-comment").click(async function () {
-        let id = $("#id").val();
-        let password = $("#password").val();
-        let content = $("#content").val();
-        let date = new Date();
-
-        let doc = {
-          id: id,
-          password: password,
-          comment: content,
-          date: date,
-          memberUid: uid,
+        // Firebase 구성 정보 설정
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8iq6327ovmJVKQflD2E9mzLQElg18kYg",
+            authDomain: "teampage-2code.firebaseapp.com",
+            projectId: "teampage-2code",
+            storageBucket: "teampage-2code.firebasestorage.app",
+            messagingSenderId: "495445103559",
+            appId: "1:495445103559:web:044d367cdc06ec94b2ffe2",
         };
 
-        try {
-          await addDoc(collection(db, "comment"), doc);
-        } catch (error) {
-          console.error(error);
-          console.error(doc);
-          alert("등록 실패!");
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // uid 추출
+        const uid = window.location.search.substring(5); // 팀 전체의 경우 team2code
+
+        // 수정 uid 업데이트
+        const link = document.querySelector(".member-detail__red-btn");
+        link.href = `./member_modify.html?uid=${uid}`;
+
+        // 함수: firebase에서 uid로 멤버 정보를 가져온 후 보여주는 함수
+        async function getUserByUID(uid) {
+            const userRef = doc(db, "memberInfo", uid);
+            const docSnap = await getDoc(userRef);
+            if (docSnap.exists()) {
+                let name = docSnap.data().name;
+                let age = docSnap.data().age;
+                let hobby = docSnap.data().hobby;
+                let blog = docSnap.data().blog;
+                let resolution = docSnap.data().resolution;
+                let image = docSnap.data().photo;
+
+                let temp_image_html = `<img class="image" src="${image}">`;
+                $("#name").append(name);
+                $("#age").append(age);
+                $("#hobby").append(hobby);
+                $("#blog").append(blog);
+                $("#resolution").append(resolution);
+                $("#image-box").append(temp_image_html);
+            } else {
+                console.log("데이터 없음!");
+            }
         }
-        window.location.href = `member_detail.html?uid=${uid}`;
-      });
+        // 멤버정보 조회한 후 보여주는 위 함수실행
+        getUserByUID(uid);
 
-      // 댓글 삭제
-      $("#comment-del-btn").click(async function () {
-        const docid = $(this).attr("data-id");
-        console.log(docid);
-        const password = prompt("****");
-        // db에서
-        const cmtDoc = doc(db, "comment", docid);
-        const cmtSnap = await getDoc(cmtDoc);
+        // gestbook read&show --------------
+        async function getCommentByUID(uid) {
+            // 쿼리설정 : 방명록 중 특정 UID에 해당하는 코멘트만 날짜 내림차순으로
+            const q = query(
+                collection(db, "comment"),
+                where("memberUid", "==", uid), // 팀 전체의 경우 team2code 로 읽으면 됨
+                orderBy("date")
+            );
+            // 쿼리사용해서 DB인출
+            console.log("시작");
+            const comments = await getDocs(q);
+            let tempComment_html; // 코멘트 당 붙일 html
+            if (comments.empty) {
+                tempComment_html = `<li class="comment">
+            <div class="non-comment" style="margin: 0px auto">코멘트가 없습니다</div></li>`;
+                $("#comment-list").append(tempComment_html);
+            } else {
+                comments.forEach((comment) => {
+                    // 코멘트 하나씩 row에 할당하고
+                    let row = comment.data();
+                    let commentId = comment.id;
+                    // row의 정보들을 각각 컬럼별로 쪼개서 변수에 할당
+                    let content = row["comment"];
+                    let lastDate = row["date"].toDate();
+                    let year = lastDate.getFullYear();
+                    let month = ("0" + (lastDate.getMonth() + 1)).slice(-2);
+                    let days = ("0" + lastDate.getDate()).slice(-2);
+                    lastDate = year + "-" + month + "-" + days;
+                    let commenterId = row["id"];
 
-        // 멤버정보의 uid
-        const memberUid = cmtSnap.data().memberUid;
-
-        if (password == cmtSnap.data().password || password == "admin") {
-          await deleteDoc(doc(db, "comment", docid));
-          alert("댓글이 삭제되었습니다");
-          window.location.href = `member_detail.html?uid=${memberUid}`;
-        } else {
-          alert("비밀번호가 틀립니다.");
-          window.location.href = `member_detail.html?uid=${memberUid}`;
+                    tempComment_html = `<li class="comment">
+                        <div class="comment-id">${commenterId}</div>
+                        <div class="comment-word">${content}</div>
+                        <div class="comment-btn-box">
+                            <a class="comment-fix-btn data-id=${commentId}">수정</a>
+                            <a class="comment-del-btn data-id=${commentId}">삭제</a>
+                            </div>
+                            <div class="comment-date">${lastDate}</div>
+                            </li>`;
+                            $("#comment-list").append(tempComment_html);
+                });
+            }
         }
-      });
+        getCommentByUID(uid);
+
+        // header, footer 로드
+        $(function () {
+            $("#member-detail__main-header").load("header.html");
+            $("#member-detail__main-footer").load("footer.html");
+        });
+
+        // 멤버 삭제
+        $("#member-detail__delete").click(async function () {
+            if (confirm("정말 삭제하시겠습니까?")) {
+                // 멤버 삭제
+                await deleteDoc(doc(db, "memberInfo", uid));
+                // 해당 멤버의 댓글 삭제
+                const commentRef = collection(db, "comment");
+                const q = query(commentRef, where("memberUid", "==", uid));
+
+                const querySnapshot = await getDocs(q); // 쿼리 결과 가져오기
+
+                querySnapshot.forEach(async (doc) => {
+                    await deleteDoc(doc.ref); // 조건에 맞는 댓글 삭제
+                });
+                alert("삭제 완료!");
+                window.location.href = "index.html";
+            } else {
+                alert("취소되었습니다");
+                window.location.reload();
+            }
+        });
+
+        //방명록 글 등록
+        $("#add-comment").click(async function () {
+            let id = $("#id").val();
+            let password = $("#password").val();
+            let content = $("#content").val();
+            let date = new Date();
+
+            let doc = {
+                id: id,
+                password: password,
+                comment: content,
+                date: date,
+                memberUid: uid,
+            };
+
+            try {
+                await addDoc(collection(db, "comment"), doc);
+            } catch (error) {
+                console.error(error);
+                console.error(doc);
+                alert("등록 실패!");
+            }
+            window.location.href = `member_detail.html?uid=${uid}`;
+        });
+
+        // 댓글 삭제
+        $("#comment-del-btn").click(async function () {
+            const docid = $(this).attr("data-id");
+            console.log(docid);
+            const password = prompt("****");
+            // db에서 
+            const cmtDoc = doc(db, "comment", docid);
+            const cmtSnap = await getDoc(cmtDoc);
+
+            // 멤버정보의 uid
+            const memberUid = cmtSnap.data().memberUid;
+
+            if (password == cmtSnap.data().password || password == 'admin') {
+                await deleteDoc(doc(db, "comment", docid));
+                alert("댓글이 삭제되었습니다")
+                window.location.href = `member_detail.html?uid=${memberUid}`;
+            } else {
+                alert("비밀번호가 틀립니다.");
+                window.location.href = `member_detail.html?uid=${memberUid}`;
+            }
+        });
     </script>
-  </head>
+</head>
 
-  <body class="member-detail__body">
+<body class="member-detail__body">
     <!-- 메인 헤더 -->
     <div id="member-detail__main-header"></div>
     <!-- 전체 컨테이너 -->
     <div class="member-detail__container">
-      <!-- 메인 컨테이너 -->
-      <div class="member-detail__main-container">
-        <div class="member-detail__title-box">
-          <span class="member-detail__title">상세정보</span>
+        <!-- 메인 컨테이너 -->
+        <div class="member-detail__main-container">
+            <div class="member-detail__title-box">
+                <span class="member-detail__title">상세정보</span>
+            </div>
+            <!-- 메인 컨텐츠 -->
+            <div class="member-detail__detail">
+                <div class="member-detail__image-box" id="image-box"></div>
+                <div class="member-detail__detail-box">
+                    <div class="member-detail__detail-box-box">
+                        <div class="member-detail__text-box">
+                            <span>이름 : </span><span id="name"></span>
+                        </div>
+                        <div class="member-detail__text-box">
+                            <span>나이 : </span><span id="age"></span>
+                        </div>
+                        <div class="member-detail__text-box">
+                            <span>취미 : </span><span id="hobby"></span>
+                        </div>
+                        <div class="member-detail__text-box">
+                            <span>블로그 : </span><span id="blog"></span>
+                        </div>
+                    </div>
+                    <div class="member-detail__resolution-box">
+                        <div class="member-detail__text-box">나의 다짐</div>
+                        <div class="member-detail__resolution">
+                            <span id="resolution"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="member-detail__button-box">
+                <a class="member-detail__gray-btn" id="member-detail__cancle" href="index.html">이전</a>
+                <a class="member-detail__red-btn" href="./member_replace.html?uid=">수정</a>
+                <a class="member-detail__gray-btn" id="member-detail__delete" href="javascript:;">삭제</a>
+            </div>
         </div>
-        <!-- 메인 컨텐츠 -->
-        <div class="member-detail__detail">
-          <div class="member-detail__image-box" id="image-box"></div>
-          <div class="member-detail__detail-box">
-            <div class="member-detail__detail-box-box">
-              <div class="member-detail__text-box">
-                <span>이름 : </span><span id="name"></span>
-              </div>
-              <div class="member-detail__text-box">
-                <span>나이 : </span><span id="age"></span>
-              </div>
-              <div class="member-detail__text-box">
-                <span>취미 : </span><span id="hobby"></span>
-              </div>
-              <div class="member-detail__text-box">
-                <span>블로그 : </span><span id="blog"></span>
-              </div>
-            </div>
-            <div class="member-detail__resolution-box">
-              <div class="member-detail__text-box">나의 다짐</div>
-              <div class="member-detail__resolution">
-                <span id="resolution"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="member-detail__button-box">
-          <a
-            class="member-detail__gray-btn"
-            id="member-detail__cancle"
-            href="index.html"
-            >이전</a
-          >
-          <a class="member-detail__red-btn" href="./member_replace.html?uid="
-            >수정</a
-          >
-          <a
-            class="member-detail__gray-btn"
-            id="member-detail__delete"
-            href="javascript:;"
-            >삭제</a
-          >
-        </div>
-      </div>
-      <div class="comment-box">
-        <div class="comment-text">댓글</div>
-        <ul class="comment-list" id="comment-list">
-          <!-- 개발완료시 지울 것 -->
-          <li class="comment">
-            <div class="comment-id">지갑</div>
-            <div class="comment-word">
-              5만원5만원5만원5만원5만원5만원5만원5만원5만원5만원
-            </div>
-            <div class="comment-btn-box">
-              <a class="comment-fix-btn">수정</a>
-              <a class="comment-del-btn" id="comment-del-btn">삭제</a>
-            </div>
-            <div class="comment-date">2024-12-26</div>
-          </li>
-        </ul>
+        <div class="comment-box">
+            <div class="comment-text">댓글</div>
+            <ul class="comment-list" id="comment-list">
+                <!-- 개발완료시 지울 것 -->
+                <li class="comment">
+                    <div class="comment-id">지갑</div>
+                    <div class="comment-word">5만원5만원5만원5만원5만원5만원5만원5만원5만원5만원</div>
+                    <div class="comment-btn-box">
+                        <a class="comment-fix-btn">수정</a>
+                        <a class="comment-del-btn" id="comment-del-btn">삭제</a>
+                    </div>
+                    <div class="comment-date">2024-12-26</div>
+                </li>
+            </ul>
 
-        <div class="input-comment-box">
-          <form id="input-form">
-            <div class="form-container">
-              <div class="left-box">
-                <input type="text" id="id" required placeholder="닉네임" />
-                <input
-                  type="password"
-                  id="password"
-                  maxlength="4"
-                  required
-                  placeholder="비밀번호"
-                />
-                <button
-                  type="button"
-                  id="add-comment"
-                  class="comment-submit-btn"
-                >
-                  등록
-                </button>
-              </div>
-              <div class="right-box">
-                <textarea id="content" required></textarea>
-              </div>
+            <div class="input-comment-box">
+                <form id="input-form">
+                    <div class="form-container">
+                        <div class="left-box">
+                            <input type="text" id="id" required placeholder="닉네임" />
+                            <input type="password" id="password" maxlength="4" required placeholder="비밀번호" />
+                            <button type="button" id="add-comment" class="comment-submit-btn">등록</button>
+                        </div>
+                        <div class="right-box">
+                            <textarea id="content" required></textarea>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </form>
         </div>
-      </div>
     </div>
     <!-- 메인 푸터 -->
     <div id="member-detail__main-footer"></div>
-  </body>
+</body>
+
 </html>
